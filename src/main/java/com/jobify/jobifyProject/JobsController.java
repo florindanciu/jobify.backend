@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 @RestController
+@RequestMapping("/api")
 public class JobsController {
 
     ConcurrentMap<String, Job> jobs = new ConcurrentHashMap<>();
