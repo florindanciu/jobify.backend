@@ -1,7 +1,6 @@
 package com.jobifyProject.jobify.DummyContatcs;
 
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,6 +18,11 @@ public class AdressBookResource {
     @GetMapping("/")
     public List<Contact> getAllContacts(@PathVariable String id){
         return new ArrayList<Contact>(contacts.values());
+    }
+
+    @GetMapping("/home")
+    public String getTest(@PathVariable String id){
+        return "test";
     }
 
     @PostMapping("/")
