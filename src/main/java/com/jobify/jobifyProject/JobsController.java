@@ -1,5 +1,6 @@
 package com.jobify.jobifyProject;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -19,6 +20,10 @@ public class JobsController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(
+            value = "Finds a job by id",
+            notes = "Provide an id to search for a specific job",
+            response = Job.class)
     public Job getJob(@PathVariable String id){
         return jobs.get(id);
     }
