@@ -4,7 +4,6 @@ import com.jobifyProject.jobify.model.User;
 import com.jobifyProject.jobify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 
@@ -34,13 +33,11 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public User addUser(@RequestBody User user) {
         return userRepository.save(user);
     }
 
     @PutMapping("/users/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<User> updateUserById(@PathVariable UUID id, @RequestBody User updatedUserDetails) {
         User user = userRepository.findById(id).
                 orElseThrow(() -> new ResourceAccessException("User with id " + id + " not found"));
@@ -56,7 +53,6 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Map<String, Boolean>> deleteUser(@PathVariable UUID id) {
         User user = userRepository.findById(id).
                 orElseThrow(() -> new ResourceAccessException("User with id " + id + " not found"));

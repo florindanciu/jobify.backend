@@ -13,8 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
-import static com.jobifyProject.jobify.security.ApplicationUserRole.*;
-import static com.jobifyProject.jobify.security.ApplicationUserPermission.*;
+import static com.jobifyProject.jobify.security.ApplicationUserPermission.JOB_WRITE;
+import static com.jobifyProject.jobify.security.ApplicationUserRole.ADMIN;
+import static com.jobifyProject.jobify.security.ApplicationUserRole.USER;
 
 @Configuration
 @EnableWebSecurity
@@ -30,13 +31,13 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-//                .csrf().disable()
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/","/api/v1/jobs/**","/api/v1/companies/**").permitAll()
                 .antMatchers("/admin/**").hasRole(ADMIN.name())
-                .antMatchers(HttpMethod.DELETE, "/api/v1/jobs/**").hasAuthority(JOB_WRITE.getPermission())
+                .antMatchers(HttpMethod.DELETE, "/api/v1/jobs/**").hasAuthority(JOB_WRITE.name())
                 .antMatchers(HttpMethod.POST, "/api/v1/jobs").hasAuthority(JOB_WRITE.getPermission())
-                .antMatchers(HttpMethod.PUT, "/api/v1/jobs/**").hasAuthority(JOB_WRITE.getPermission())
+                .antMatchers(HttpMethod.PUT, "/api/v1/jobs/**").hasAuthority(JOB_WRITE.name())
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -50,7 +51,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         UserDetails annaUser = User.builder()
                 .username("anna")
                 .password(passwordEncoder.encode("123"))
-                .authorities(USER.getGrantedAuthorities())
+                .roles(USER.name())
                 .build();
 
         UserDetails adamUser = User.builder()

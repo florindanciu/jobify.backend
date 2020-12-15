@@ -4,7 +4,6 @@ import com.jobifyProject.jobify.model.Job;
 import com.jobifyProject.jobify.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 
@@ -22,6 +21,7 @@ public class JobController {
     private JobRepository jobRepository;
 
     @GetMapping("/jobs")
+//    @PreAuthorize("hasRole('Role_ADMIN')")
     public List<Job> getAllJobs() {
         return jobRepository.findAll();
     }
@@ -34,13 +34,11 @@ public class JobController {
     }
 
     @PostMapping("/jobs")
-    @PreAuthorize("hasAnyRole('ROLE_COMPANY','ROLE_ADMIN')")
     public Job addJob(@RequestBody Job job) {
         return jobRepository.save(job);
     }
 
     @PutMapping("/jobs/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_COMPANY','ROLE_ADMIN')")
     public ResponseEntity<Job> updateJobById(@PathVariable UUID id, @RequestBody Job updatedJobDetails) {
         Job job = jobRepository.findById(id).
                 orElseThrow(() -> new ResourceAccessException("Job with id " + id + " not found"));
@@ -57,7 +55,6 @@ public class JobController {
     }
 
     @DeleteMapping("/jobs/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_COMPANY','ROLE_ADMIN')")
     public ResponseEntity<Map<String, Boolean>> deleteJob(@PathVariable UUID id) {
         Job job = jobRepository.findById(id).
                 orElseThrow(() -> new ResourceAccessException("Job with id " + id + " not found"));
