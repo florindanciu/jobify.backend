@@ -53,7 +53,7 @@ public class JobController {
         return ResponseEntity.ok(updatedJob);
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/jobs/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteJob(@PathVariable UUID id) {
         Job job = jobRepository.findById(id).
                 orElseThrow(() -> new ResourceAccessException("Job with id " + id + " not found"));

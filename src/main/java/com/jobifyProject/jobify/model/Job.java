@@ -5,12 +5,14 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @Entity
+@Table(name = "jobs")
 public class Job {
 
     @Id
