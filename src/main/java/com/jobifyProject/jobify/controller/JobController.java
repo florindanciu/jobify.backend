@@ -2,7 +2,6 @@ package com.jobifyProject.jobify.controller;
 
 import com.jobifyProject.jobify.model.Job;
 import com.jobifyProject.jobify.repository.JobRepository;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/v1/")
 @CrossOrigin(origins = "http://localhost:3000")
 public class JobController {
 
@@ -27,10 +26,6 @@ public class JobController {
     }
 
     @GetMapping("/jobs/{id}")
-    @ApiOperation(
-            value = "Finds a job by id",
-            notes = "Provide an id to search for a specific job",
-            response = com.jobify.jobifyProject.JobsMock.Job.class)
     public ResponseEntity<Job> getJobById(@PathVariable UUID id) {
         Job job = jobRepository.findById(id).
                 orElseThrow(() -> new ResourceAccessException("Job with id " + id + " not found"));
