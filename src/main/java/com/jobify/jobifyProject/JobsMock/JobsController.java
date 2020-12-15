@@ -1,16 +1,21 @@
-package com.jobify.jobifyProject;
+package com.jobify.jobifyProject.JobsMock;
 
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 @RestController
 @RequestMapping("/api")
 public class JobsController {
+
+    @Autowired
+    private JobService jobService;
 
     ConcurrentMap<String, Job> jobs = new ConcurrentHashMap<>();
 
@@ -29,9 +34,9 @@ public class JobsController {
     }
 
     @PostMapping("/")
-    public Job addJob(@RequestBody Job job){
-        jobs.put(job.getId(),job);
-        return job;
+    public void addJob(@RequestBody Job job){
+        Job newJob = new Job(UUID.randomUUID(), job.getJobName());
+        jobService.addJob(newJob);
     }
 
 }
