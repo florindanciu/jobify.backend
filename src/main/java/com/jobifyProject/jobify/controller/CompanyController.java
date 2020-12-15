@@ -4,6 +4,7 @@ import com.jobifyProject.jobify.model.Company;
 import com.jobifyProject.jobify.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 
@@ -33,11 +34,13 @@ public class CompanyController {
     }
 
     @PostMapping("/companies")
+    @PreAuthorize("hasAnyRole('ROLE_COMPANY','ROLE_ADMIN')")
     public Company addCompany(@RequestBody Company company) {
         return companyRepository.save(company);
     }
 
     @PutMapping("/companies/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_COMPANY','ROLE_ADMIN')")
     public ResponseEntity<Company> updateCompanyById(@PathVariable UUID id, @RequestBody Company updatedCompanyDetails) {
         Company company = companyRepository.findById(id).
                 orElseThrow(() -> new ResourceAccessException("User with id " + id + " not found"));
@@ -51,6 +54,7 @@ public class CompanyController {
     }
 
     @DeleteMapping("/companies/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_COMPANY','ROLE_ADMIN')")
     public ResponseEntity<Map<String, Boolean>> deleteCompany(@PathVariable UUID id) {
         Company company = companyRepository.findById(id).
                 orElseThrow(() -> new ResourceAccessException("User with id " + id + " not found"));
