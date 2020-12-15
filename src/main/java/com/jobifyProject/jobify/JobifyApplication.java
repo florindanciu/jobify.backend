@@ -7,10 +7,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class JobifyApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(JobifyApplication.class, args);
-		User user = new User();
-		user.setName("John");
-		System.out.println(user.getName());
-	}
+	public static void main(String[] args) { SpringApplication.run(JobifyApplication.class, args); }
 }
