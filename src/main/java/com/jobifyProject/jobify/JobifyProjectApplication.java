@@ -1,4 +1,4 @@
-package com.jobify.jobifyProject;
+package com.jobifyProject.jobify;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
