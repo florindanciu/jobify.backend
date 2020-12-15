@@ -1,5 +1,6 @@
 package com.jobifyProject.jobify;
 
+import com.jobifyProject.jobify.model.User;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -8,6 +9,8 @@ public class JobifyApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(JobifyApplication.class, args);
+		User user = new User();
+		user.setName("John");
+		System.out.println(user.getName());
 	}
-
 }
