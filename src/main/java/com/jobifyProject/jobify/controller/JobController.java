@@ -1,9 +1,7 @@
 package com.jobifyProject.jobify.controller;
 
 import com.jobifyProject.jobify.model.Job;
-import com.jobifyProject.jobify.model.User;
 import com.jobifyProject.jobify.repository.JobRepository;
-import com.jobifyProject.jobify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
