@@ -1,13 +1,12 @@
 package com.jobifyProject.jobify.model;
 
 import lombok.Data;
+import lombok.Generated;
 import lombok.NoArgsConstructor;
+import org.hibernate.sql.Insert;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.Date;
+import javax.persistence.*;
+import java.sql.Date;
 import java.util.UUID;
 
 @Data
@@ -22,7 +21,11 @@ public class Job {
     private String name;
     private String description;
     private String applyLink;
-    private String companyName;
-    private UUID companyId;
+    @Generated()
     private Date publishedDate;
+    private String type;
+    private String location;
+
+    @ManyToOne
+    private Company company;
 }

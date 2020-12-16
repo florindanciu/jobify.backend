@@ -1,6 +1,7 @@
 package com.jobifyProject.jobify.controller;
 
 import com.jobifyProject.jobify.model.Company;
+import com.jobifyProject.jobify.model.Job;
 import com.jobifyProject.jobify.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,8 +43,8 @@ public class CompanyController {
         Company company = companyRepository.findById(id).
                 orElseThrow(() -> new ResourceAccessException("User with id " + id + " not found"));
         company.setName(updatedCompanyDetails.getName());
-        company.setDescription(updatedCompanyDetails.getDescription());
         company.setWebsiteLink(updatedCompanyDetails.getWebsiteLink());
+        company.setCompanyLogo(updatedCompanyDetails.getCompanyLogo());
 
         Company updatedCompany = companyRepository.save(company);
 
