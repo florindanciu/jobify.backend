@@ -1,5 +1,6 @@
 package com.jobifyProject.jobify.security;
 
+import com.jobifyProject.jobify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,9 @@ import static com.jobifyProject.jobify.security.ApplicationUserRole.USER;
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     public ApplicationSecurityConfig(PasswordEncoder passwordEncoder) {
