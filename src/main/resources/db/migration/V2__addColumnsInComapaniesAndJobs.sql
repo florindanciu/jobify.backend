@@ -1,6 +1,6 @@
-ALTER TABLE companies
-    ADD COLUMN company_logo VARCHAR;
-
-ALTER TABLE jobs
-ADD COLUMN type VARCHAR,
-    ADD COLUMN location VARCHAR;
+-- ALTER TABLE companies
+--     ADD COLUMN company_logo VARCHAR;
+--
+-- ALTER TABLE jobs
+-- ADD COLUMN type VARCHAR,
+--     ADD COLUMN location VARCHAR;

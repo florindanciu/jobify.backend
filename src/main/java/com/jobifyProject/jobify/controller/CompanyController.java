@@ -3,6 +3,7 @@ package com.jobifyProject.jobify.controller;
 import com.jobifyProject.jobify.model.Company;
 import com.jobifyProject.jobify.model.Job;
 import com.jobifyProject.jobify.repository.CompanyRepository;
+import com.jobifyProject.jobify.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,9 @@ public class CompanyController {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @Autowired
+    private JobRepository jobRepository;
+
     @GetMapping("/companies")
     public List<Company> getAllCompanies() {
         return companyRepository.findAll();
@@ -31,6 +35,12 @@ public class CompanyController {
         Company company = companyRepository.findById(id).
                 orElseThrow(() -> new ResourceAccessException("Company with id " + id + " not found"));
         return ResponseEntity.ok(company);
+    }
+
+    @GetMapping("/companies/{id}/jobs")
+    public List<Job> getJobsByCompanyId(@PathVariable UUID id) {
+        List<Job> jobs = jobRepository.findAllByCompanyId(id);
+        return jobs;
     }
 
     @PostMapping("/companies")
