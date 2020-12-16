@@ -1,16 +1,16 @@
 package com.jobifyProject.jobify.controller;
 
+import com.fasterxml.jackson.annotation.OptBoolean;
+import com.jobifyProject.jobify.model.Company;
 import com.jobifyProject.jobify.model.Job;
+import com.jobifyProject.jobify.repository.CompanyRepository;
 import com.jobifyProject.jobify.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/")
@@ -19,6 +19,9 @@ public class JobController {
 
     @Autowired
     private JobRepository jobRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
 
     @GetMapping("/jobs")
 //    @PreAuthorize("hasRole('Role_ADMIN')")
@@ -33,8 +36,11 @@ public class JobController {
         return ResponseEntity.ok(job);
     }
 
-    @PostMapping("/jobs")
-    public Job addJob(@RequestBody Job job) {
+    @PostMapping("/companies/{company_id}/jobs")
+    public Job addJob(@RequestBody Job job, @PathVariable UUID company_id) {
+        Company company = companyRepository.findById(company_id).
+                orElseThrow(() -> new ResourceAccessException("Company with id " + company_id + " not found"));
+        job.setCompany(company);
         return jobRepository.save(job);
     }
 
@@ -46,8 +52,8 @@ public class JobController {
         job.setName(updatedJobDetails.getName());
         job.setDescription(updatedJobDetails.getDescription());
         job.setApplyLink(updatedJobDetails.getApplyLink());
-        job.setCompanyName(updatedJobDetails.getCompanyName());
-        job.setPublishedDate(updatedJobDetails.getPublishedDate());
+        job.setType(updatedJobDetails.getType());
+        job.setLocation(updatedJobDetails.getLocation());
 
         Job updatedJob = jobRepository.save(job);
 

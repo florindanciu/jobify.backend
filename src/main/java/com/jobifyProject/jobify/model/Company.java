@@ -3,10 +3,7 @@ package com.jobifyProject.jobify.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Data
@@ -19,6 +16,6 @@ public class Company {
     @GeneratedValue
     private UUID id;
     private String name;
-    private String description;
     private String websiteLink;
+    private String companyLogo;
 }
