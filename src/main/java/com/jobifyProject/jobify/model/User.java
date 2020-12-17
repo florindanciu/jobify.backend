@@ -18,9 +18,8 @@ public class User {
     @Id
     @GeneratedValue
     private UUID id;
-    private String firstName;
-    private String lastName;
-    private boolean isAdmin;
+    private String username;
+    private String role;
     private String email;
     private String password;
     private UUID jobId;

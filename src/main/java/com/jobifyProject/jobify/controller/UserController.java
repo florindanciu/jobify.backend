@@ -41,9 +41,8 @@ public class UserController {
     public ResponseEntity<User> updateUserById(@PathVariable UUID id, @RequestBody User updatedUserDetails) {
         User user = userRepository.findById(id).
                 orElseThrow(() -> new ResourceAccessException("User with id " + id + " not found"));
-        user.setFirstName(updatedUserDetails.getFirstName());
-        user.setLastName(updatedUserDetails.getLastName());
-        user.setAdmin(updatedUserDetails.isAdmin());
+        user.setUsername(updatedUserDetails.getUsername());
+        user.setRole(updatedUserDetails.getRole());
         user.setEmail(updatedUserDetails.getEmail());
         user.setPassword(updatedUserDetails.getPassword());
 

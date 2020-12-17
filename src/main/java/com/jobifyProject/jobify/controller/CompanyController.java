@@ -9,10 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import javax.persistence.EntityNotFoundException;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/")
@@ -41,6 +39,13 @@ public class CompanyController {
     public List<Job> getJobsByCompanyId(@PathVariable UUID id) {
         List<Job> jobs = jobRepository.findAllByCompanyId(id);
         return jobs;
+    }
+
+    @GetMapping("/companies/{companyId}/jobs/{jobId}")
+    public Optional<Job> getJobById(@PathVariable UUID companyId,@PathVariable UUID jobId) {
+        Company company = companyRepository.findById(companyId).orElseThrow(EntityNotFoundException::new);
+        Optional<Job> job = jobRepository.findByIdAndCompany(company,jobId);
+        return job;
     }
 
     @PostMapping("/companies")

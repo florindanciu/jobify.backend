@@ -4,7 +4,6 @@ import com.jobifyProject.jobify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -14,9 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
-import static com.jobifyProject.jobify.security.ApplicationUserPermission.JOB_WRITE;
+import java.util.List;
+
 import static com.jobifyProject.jobify.security.ApplicationUserRole.ADMIN;
-import static com.jobifyProject.jobify.security.ApplicationUserRole.USER;
 
 @Configuration
 @EnableWebSecurity
@@ -34,14 +33,14 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/","/api/v1/jobs/**","/api/v1/companies/**").permitAll()
+       http
+               .csrf().disable()
+               .authorizeRequests()
+                .antMatchers("/","/api/v1/jobs/**","/api/v1/users/**","/api/v1/companies/**").permitAll()
                 .antMatchers("/admin/**").hasRole(ADMIN.name())
-                .antMatchers(HttpMethod.DELETE, "/api/v1/jobs/**").hasAuthority(JOB_WRITE.name())
-                .antMatchers(HttpMethod.POST, "/api/v1/jobs").hasAuthority(JOB_WRITE.getPermission())
-                .antMatchers(HttpMethod.PUT, "/api/v1/jobs/**").hasAuthority(JOB_WRITE.name())
+//                .antMatchers(HttpMethod.DELETE, "/api/v1/jobs/**").hasAuthority(JOB_WRITE.name())
+//                .antMatchers(HttpMethod.POST, "/api/v1/jobs").hasAuthority(JOB_WRITE.getPermission())
+//                .antMatchers(HttpMethod.PUT, "/api/v1/jobs/**").hasAuthority(JOB_WRITE.name())
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -53,23 +52,25 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     protected UserDetailsService userDetailsService() {
         // Mock user
-        UserDetails annaUser = User.builder()
-                .username("anna")
-                .password(passwordEncoder.encode("123"))
-                .roles(USER.name())
+        List<com.jobifyProject.jobify.model.User> users = userRepository.findAll();
+
+        UserDetails gabiUser = User.builder()
+                .username(users.get(0).getUsername())
+                .password(passwordEncoder.encode(users.get(0).getPassword()))
+                .roles(users.get(0).getRole())
                 .build();
 
-        UserDetails adamUser = User.builder()
-                .username("adam")
-                .password(passwordEncoder.encode("1234"))
-                .authorities(ADMIN.getGrantedAuthorities())
-                .build();
+//        UserDetails adamUser = User.builder()
+//                .username(users.get(1).getUsername())
+//                .password(passwordEncoder.encode(users.get(1).getPassword()))
+//                .roles(users.get(1).getRole())
+//                .build();
 
         return new InMemoryUserDetailsManager(
-                annaUser,
-                adamUser
+                gabiUser
         );
     }
+
 
 
 }
