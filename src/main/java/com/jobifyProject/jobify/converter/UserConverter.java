@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -20,7 +21,15 @@ public class UserConverter {
     }
 
     public List<UserDto> modelToDto(List<User> userList) {
-        return userList.stream().map(user -> modelToDto(user)).collect(Collectors.toList());
+        return userList.stream().map(this::modelToDto).collect(Collectors.toList());
+    }
+
+    public Set<User> modelToDto(Set<User> userList) {
+        return userList.stream().map(this::dtoToModel).collect(Collectors.toSet());
+    }
+
+    private User dtoToModel(User user) {
+        return modelMapper.map(user, User.class);
     }
 
     public User dtoToModel(UserDto userDto) {
@@ -28,6 +37,6 @@ public class UserConverter {
     }
 
     public List<User> dtoToModel(List<UserDto> userDtoList) {
-        return userDtoList.stream().map(userDto -> dtoToModel(userDto)).collect(Collectors.toList());
+        return userDtoList.stream().map(this::dtoToModel).collect(Collectors.toList());
     }
 }

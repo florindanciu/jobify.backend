@@ -42,6 +42,7 @@ public class UserController {
     @GetMapping("/users/{id}/favoriteJobs")
     public Set<JobOfferDto> getFavoriteJobs(@PathVariable UUID id) {
         Set<JobOffer> jobOffers = userService.getFavoriteJobs(id);
+        System.out.println(jobOffers);
         return jobOfferConverter.modelToDto(jobOffers);
     }
 

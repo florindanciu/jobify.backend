@@ -4,16 +4,15 @@ import com.jobifyProject.jobify.exception.CompanyNotFoundException;
 import com.jobifyProject.jobify.exception.JobNotFoundException;
 import com.jobifyProject.jobify.model.Company;
 import com.jobifyProject.jobify.model.JobOffer;
+import com.jobifyProject.jobify.model.User;
 import com.jobifyProject.jobify.repository.CompanyRepository;
 import com.jobifyProject.jobify.repository.JobRepository;
+import com.jobifyProject.jobify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class JobOfferService {
@@ -23,6 +22,9 @@ public class JobOfferService {
 
     @Autowired
     private CompanyRepository companyRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public List<JobOffer> getAllJobOffers() {
         return jobRepository.findAll();
@@ -58,5 +60,10 @@ public class JobOfferService {
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
+    }
+
+    public Set<User> findJobOfferApplicants(UUID id) {
+        Optional<JobOffer> jobOffer = jobRepository.findById(id);
+        return jobOffer.get().getApplicants();
     }
 }
