@@ -30,6 +30,7 @@ public class JobOffer {
     private String location;
     private Enum state; // ENUM
 
+
     @ManyToOne
     private User employed;
 
