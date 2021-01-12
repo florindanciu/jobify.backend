@@ -1,13 +1,15 @@
 package com.jobifyProject.jobify.controller;
 
+import com.jobifyProject.jobify.converter.JobOfferConverter;
+import com.jobifyProject.jobify.converter.UserConverter;
+import com.jobifyProject.jobify.dto.JobOfferDto;
+import com.jobifyProject.jobify.dto.UserDto;
 import com.jobifyProject.jobify.model.JobOffer;
-import com.jobifyProject.jobify.model.JobOfferStates;
 import com.jobifyProject.jobify.model.User;
-import com.jobifyProject.jobify.repository.UserRepository;
+import com.jobifyProject.jobify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.ResourceAccessException;
 
 import java.util.*;
 
@@ -17,59 +19,55 @@ import java.util.*;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserConverter userConverter;
+
+    @Autowired
+    private JobOfferConverter jobOfferConverter;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/users")
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDto> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return userConverter.modelToDto(users);
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable UUID id) {
-        User user = userRepository.findById(id).
-                orElseThrow(() -> new ResourceAccessException("User with id " + id + " not found"));
-        return ResponseEntity.ok(user);
+    public UserDto getUserById(@PathVariable UUID id) {
+        User user = userService.getUserById(id);
+        return userConverter.modelToDto(user);
     }
 
     @GetMapping("/users/{id}/favoriteJobs")
-    public Set<JobOffer> getFavoriteJobs(@PathVariable UUID id) {
-        User user = userRepository.findById(id).
-                orElseThrow(() -> new ResourceAccessException("User with id " + id + " not found"));
-        return user.getFavoriteJobOffers();
+    public Set<JobOfferDto> getFavoriteJobs(@PathVariable UUID id) {
+        Set<JobOffer> jobOffers = userService.getFavoriteJobs(id);
+        return jobOfferConverter.modelToDto(jobOffers);
     }
 
     @GetMapping("/users/{id}/appliedJobs")
-    public Set<JobOffer> getAppliedJobs(@PathVariable UUID id) {
-        User user = userRepository.findById(id).
-                orElseThrow(() -> new ResourceAccessException("User with id " + id + " not found"));
-        return user.getAppliedJobs();
+    public Set<JobOfferDto> getAppliedJobs(@PathVariable UUID id) {
+        Set<JobOffer> jobOffers = userService.getAppliedJobs(id);
+        return jobOfferConverter.modelToDto(jobOffers);
     }
 
     @PostMapping("/users")
-    public User addUser(@RequestBody User user) {
-        return userRepository.save(user);
+    public void addUser(@RequestBody UserDto userDto) {
+        User user = userConverter.dtoToModel(userDto);
+        userService.addUser(user);
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<User> updateUserById(@PathVariable UUID id, @RequestBody User updatedUserDetails) {
-        User user = userRepository.findById(id).
-                orElseThrow(() -> new ResourceAccessException("User with id " + id + " not found"));
-        user.setUsername(updatedUserDetails.getUsername());
-        user.setRole(updatedUserDetails.getRole());
-        user.setEmail(updatedUserDetails.getEmail());
-        user.setPassword(updatedUserDetails.getPassword());
+    public UserDto updateUserById(@PathVariable UUID id, @RequestBody UserDto userDto) {
+        User user = userConverter.dtoToModel(userDto);
+        User updatedUser = userService.updateUserById(id, user);
 
-        User updatedUser = userRepository.save(user);
-
-        return ResponseEntity.ok(updatedUser);
+        return userConverter.modelToDto(updatedUser);
     }
 
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteUser(@PathVariable UUID id) {
-        User user = userRepository.findById(id).
-                orElseThrow(() -> new ResourceAccessException("User with id " + id + " not found"));
-
-        userRepository.delete(user);
+        userService.deleteUser(id);
 
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
