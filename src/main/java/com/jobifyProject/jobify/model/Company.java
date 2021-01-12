@@ -18,4 +18,6 @@ public class Company {
     private String name;
     private String websiteLink;
     private String companyLogo;
+
+
 }

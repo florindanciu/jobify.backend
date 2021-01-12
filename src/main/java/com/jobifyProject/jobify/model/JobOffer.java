@@ -7,13 +7,14 @@ import org.hibernate.sql.Insert;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @Entity
 @Table(name = "jobs")
-public class Job {
+public class JobOffer {
 
     @Id
     @GeneratedValue
@@ -25,7 +26,11 @@ public class Job {
     private Date publishedDate;
     private String type;
     private String location;
+    private Enum state; // ENUM
 
     @ManyToOne
     private Company company;
+
+//    @ManyToMany
+//    private Set<User> applicants;
 }

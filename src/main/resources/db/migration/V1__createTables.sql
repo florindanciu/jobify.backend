@@ -4,7 +4,7 @@
 --  description varchar ,
 --  website_link varchar);
 --
--- CREATE TABLE jobs
+-- CREATE TABLE jobOffer
 -- (id uuid PRIMARY KEY,
 --  name varchar ,
 --  description varchar,
@@ -20,7 +20,7 @@
 --  last_name varchar,
 --  email varchar,
 --  password varchar,
---  jobId uuid references jobs(id),
+--  jobId uuid references jobOffer(id),
 --  companyId uuid references companies(id),
 --  applied_job_id uuid);
 --

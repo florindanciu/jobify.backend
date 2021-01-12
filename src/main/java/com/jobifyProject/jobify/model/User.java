@@ -3,10 +3,8 @@ package com.jobifyProject.jobify.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -22,7 +20,14 @@ public class User {
     private String role;
     private String email;
     private String password;
-    private UUID jobId;
-    private UUID companyId;
-    private UUID appliedJobId;
+
+    @OneToMany
+    private Set<JobOffer> workingAt;
+
+    @OneToMany
+    private Set<JobOffer> favoriteJobOffers;
+
+    @OneToMany
+    private Set<JobOffer> appliedJobs;
+
 }

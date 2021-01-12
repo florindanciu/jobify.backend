@@ -1,5 +1,7 @@
 package com.jobifyProject.jobify.controller;
 
+import com.jobifyProject.jobify.model.JobOffer;
+import com.jobifyProject.jobify.model.JobOfferStates;
 import com.jobifyProject.jobify.model.User;
 import com.jobifyProject.jobify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/")
@@ -30,6 +29,20 @@ public class UserController {
         User user = userRepository.findById(id).
                 orElseThrow(() -> new ResourceAccessException("User with id " + id + " not found"));
         return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/users/{id}/favoriteJobs")
+    public Set<JobOffer> getFavoriteJobs(@PathVariable UUID id) {
+        User user = userRepository.findById(id).
+                orElseThrow(() -> new ResourceAccessException("User with id " + id + " not found"));
+        return user.getFavoriteJobOffers();
+    }
+
+    @GetMapping("/users/{id}/appliedJobs")
+    public Set<JobOffer> getAppliedJobs(@PathVariable UUID id) {
+        User user = userRepository.findById(id).
+                orElseThrow(() -> new ResourceAccessException("User with id " + id + " not found"));
+        return user.getAppliedJobs();
     }
 
     @PostMapping("/users")

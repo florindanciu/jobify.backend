@@ -1,7 +1,7 @@
 package com.jobifyProject.jobify.controller;
 
 import com.jobifyProject.jobify.model.Company;
-import com.jobifyProject.jobify.model.Job;
+import com.jobifyProject.jobify.model.JobOffer;
 import com.jobifyProject.jobify.repository.CompanyRepository;
 import com.jobifyProject.jobify.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +36,15 @@ public class CompanyController {
     }
 
     @GetMapping("/companies/{id}/jobs")
-    public List<Job> getJobsByCompanyId(@PathVariable UUID id) {
-        List<Job> jobs = jobRepository.findAllByCompanyId(id);
-        return jobs;
+    public List<JobOffer> getJobsByCompanyId(@PathVariable UUID id) {
+        List<JobOffer> jobOffers = jobRepository.findAllByCompanyId(id);
+        return jobOffers;
     }
 
     @GetMapping("/companies/{companyId}/jobs/{jobId}")
-    public Optional<Job> getJobById(@PathVariable UUID companyId,@PathVariable UUID jobId) {
+    public Optional<JobOffer> getJobById(@PathVariable UUID companyId, @PathVariable UUID jobId) {
         Company company = companyRepository.findById(companyId).orElseThrow(EntityNotFoundException::new);
-        Optional<Job> job = jobRepository.findByIdAndCompany(company,jobId);
+        Optional<JobOffer> job = jobRepository.findByIdAndCompany(company,jobId);
         return job;
     }
 

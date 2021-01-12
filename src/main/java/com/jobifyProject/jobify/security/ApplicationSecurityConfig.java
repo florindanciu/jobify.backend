@@ -48,28 +48,28 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login").permitAll();
     }
 
-    @Override
-    @Bean
-    protected UserDetailsService userDetailsService() {
-        // Mock user
-        List<com.jobifyProject.jobify.model.User> users = userRepository.findAll();
-
-        UserDetails gabiUser = User.builder()
-                .username(users.get(0).getUsername())
-                .password(passwordEncoder.encode(users.get(0).getPassword()))
-                .roles(users.get(0).getRole())
-                .build();
-
-//        UserDetails adamUser = User.builder()
-//                .username(users.get(1).getUsername())
-//                .password(passwordEncoder.encode(users.get(1).getPassword()))
-//                .roles(users.get(1).getRole())
+//    @Override
+//    @Bean
+//    protected UserDetailsService userDetailsService() {
+//        // Mock user
+//        List<com.jobifyProject.jobify.model.User> users = userRepository.findAll();
+//
+//        UserDetails gabiUser = User.builder()
+//                .username(users.get(0).getUsername())
+//                .password(passwordEncoder.encode(users.get(0).getPassword()))
+//                .roles(users.get(0).getRole())
 //                .build();
-
-        return new InMemoryUserDetailsManager(
-                gabiUser
-        );
-    }
+//
+////        UserDetails adamUser = User.builder()
+////                .username(users.get(1).getUsername())
+////                .password(passwordEncoder.encode(users.get(1).getPassword()))
+////                .roles(users.get(1).getRole())
+////                .build();
+//
+//        return new InMemoryUserDetailsManager(
+//                gabiUser
+//        );
+//    }
 
 
 
