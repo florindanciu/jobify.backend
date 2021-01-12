@@ -34,16 +34,18 @@ public class JobOffer {
 //    @Enumerated(EnumType.STRING)
 //    private JobOfferStates state;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User employed;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Company company;
 
+    @ToString.Exclude
     @JsonBackReference
     @ManyToMany(mappedBy = "appliedJobs")
     private Set<User> applicants = new HashSet<>();
 
+    @ToString.Exclude
     @JsonBackReference // indicate that this is child class compared to User
     @ManyToMany(mappedBy = "favoriteJobOffers",fetch = FetchType.LAZY)
     private Set<User> users = new HashSet<>();

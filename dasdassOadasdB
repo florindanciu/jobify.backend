@@ -1,0 +1,17 @@
+[33mc015e19[m[33m ([m[1;36mHEAD -> [m[1;32mDTOImplementation[m[33m)[m HEAD@{0}: checkout: moving from dbDesign to DTOImplementation
+[33m4eade49[m[33m ([m[1;31morigin/dbDesign[m[33m, [m[1;32mdbDesign[m[33m)[m HEAD@{1}: checkout: moving from DTOImplementation to dbDesign
+[33mc015e19[m[33m ([m[1;36mHEAD -> [m[1;32mDTOImplementation[m[33m)[m HEAD@{2}: commit: added getJobByLocation
+[33m92a79dc[m[33m ([m[1;31morigin/DTOImplementation[m[33m)[m HEAD@{3}: checkout: moving from dbDesign to DTOImplementation
+[33m4eade49[m[33m ([m[1;31morigin/dbDesign[m[33m, [m[1;32mdbDesign[m[33m)[m HEAD@{4}: commit: merged with DTOimplementation and added Skills
+[33m15fa199[m HEAD@{5}: commit (merge): merged with DTOimplementation branch and added Skills
+[33m2c0ced9[m HEAD@{6}: checkout: moving from DTOImplementation to dbDesign
+[33m92a79dc[m[33m ([m[1;31morigin/DTOImplementation[m[33m)[m HEAD@{7}: commit: fixed stackoverflow error and added new method in UserConverter "dtoToModel(User)"
+[33mcd23497[m HEAD@{8}: checkout: moving from dbDesign to DTOImplementation
+[33m2c0ced9[m HEAD@{9}: commit: created skill model and table
+[33m96b018b[m HEAD@{10}: pull origin: Fast-forward
+[33m0553345[m[33m ([m[1;32mmain[m[33m)[m HEAD@{11}: checkout: moving from main to dbDesign
+[33m0553345[m[33m ([m[1;32mmain[m[33m)[m HEAD@{12}: commit: renamed Jobs to JobOffers and changed database design
+[33m78ecd92[m[33m ([m[1;31morigin/springSecurityImplementation[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mspringSecurityImplementation[m[33m)[m HEAD@{13}: merge springSecurityImplementation: Fast-forward
+[33m51786f4[m HEAD@{14}: checkout: moving from springSecurityImplementation to main
+[33m78ecd92[m[33m ([m[1;31morigin/springSecurityImplementation[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mspringSecurityImplementation[m[33m)[m HEAD@{15}: checkout: moving from main to springSecurityImplementation
+[33m51786f4[m HEAD@{16}: clone: from https://github.com/CodecoolGlobal/jobifyBackend.git

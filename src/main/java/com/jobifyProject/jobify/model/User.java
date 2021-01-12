@@ -2,10 +2,7 @@ package com.jobifyProject.jobify.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -31,10 +28,12 @@ public class User {
     private String password;
 
 //    @JsonManagedReference
+    @ToString.Exclude
     @OneToMany(mappedBy = "employed")
     private List<JobOffer> workedAt;
 
-    @JsonManagedReference // indicate that this is parent class compared to User
+    @ToString.Exclude
+    @JsonManagedReference // indicate that this is parent class compared to jobs
     @ManyToMany(cascade = {CascadeType.ALL},fetch = FetchType.LAZY)
     @JoinTable(
         name = "user_favorite_jobs",
@@ -42,13 +41,9 @@ public class User {
         inverseJoinColumns = {@JoinColumn(name = "job_offer_id")})
     private Set<JobOffer> favoriteJobOffers;
 
-    @JsonManagedReference
+    @ToString.Exclude
+    @JsonManagedReference // indicate that this is parent class compared to jobs
     @ManyToMany
     private Set<JobOffer> appliedJobs = new HashSet<>();
-
-    @Override
-    public String toString(){
-        return "User [id=" + id + ", name=" + username + "]";
-    }
 
 }
