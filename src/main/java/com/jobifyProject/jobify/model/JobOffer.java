@@ -28,7 +28,8 @@ public class JobOffer {
     private Date publishedDate;
     private String type;
     private String location;
-    private Enum state; // ENUM
+    @Enumerated(EnumType.STRING)
+    private JobOfferStates state;
 
 
     @ManyToOne

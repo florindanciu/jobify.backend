@@ -17,6 +17,6 @@ public interface JobRepository extends JpaRepository<JobOffer, UUID> {
 
     @Query(
             value = "SELECT j FROM JobOffer j WHERE j.id = :jobId AND j.company = :company")
-    Optional<JobOffer> findByIdAndCompany(@Param("company") Company company, @Param("jobId") UUID jobId);
+    JobOffer findByIdAndCompany(@Param("company") Company company, @Param("jobId") UUID jobId);
 
 }

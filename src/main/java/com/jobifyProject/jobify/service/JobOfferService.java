@@ -53,9 +53,7 @@ public class JobOfferService {
     }
 
     public ResponseEntity<Map<String, Boolean>> deleteJob(UUID id) {
-        JobOffer jobOffer = getJobById(id);
-
-        jobRepository.delete(jobOffer);
+        jobRepository.delete(getJobById(id));
 
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
