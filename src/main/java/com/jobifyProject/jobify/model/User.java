@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -21,13 +23,13 @@ public class User {
     private String email;
     private String password;
 
-    @OneToMany
-    private Set<JobOffer> workingAt;
+    @OneToMany(mappedBy = "employed")
+    private List<JobOffer> workedAt;
 
-    @OneToMany
+    @ManyToMany
     private Set<JobOffer> favoriteJobOffers;
 
-    @OneToMany
-    private Set<JobOffer> appliedJobs;
+    @ManyToMany
+    private Set<JobOffer> appliedJobs = new HashSet<>();
 
 }
