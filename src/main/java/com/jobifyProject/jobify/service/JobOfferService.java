@@ -24,7 +24,7 @@ public class JobOfferService {
     @Autowired
     private CompanyRepository companyRepository;
 
-    public List<JobOffer> getAllJobs() {
+    public List<JobOffer> getAllJobOffers() {
         return jobRepository.findAll();
     }
 
@@ -40,14 +40,14 @@ public class JobOfferService {
         jobRepository.save(jobOffer);
     }
 
-    public JobOffer updateJobById(UUID id, JobOffer updatedJobOfferDetails) {
+    public JobOffer updateJobById(UUID id, JobOffer updatedJobOffer) {
         JobOffer jobOffer = getJobById(id);
 
-        jobOffer.setName(updatedJobOfferDetails.getName());
-        jobOffer.setDescription(updatedJobOfferDetails.getDescription());
-        jobOffer.setApplyLink(updatedJobOfferDetails.getApplyLink());
-        jobOffer.setType(updatedJobOfferDetails.getType());
-        jobOffer.setLocation(updatedJobOfferDetails.getLocation());
+        jobOffer.setName(updatedJobOffer.getName());
+        jobOffer.setDescription(updatedJobOffer.getDescription());
+        jobOffer.setApplyLink(updatedJobOffer.getApplyLink());
+        jobOffer.setType(updatedJobOffer.getType());
+        jobOffer.setLocation(updatedJobOffer.getLocation());
 
         return jobRepository.save(jobOffer);
     }

@@ -1,15 +1,12 @@
 package com.jobifyProject.jobify.controller;
 
-import com.jobifyProject.jobify.model.Company;
+import com.jobifyProject.jobify.converter.JobOfferConverter;
+import com.jobifyProject.jobify.dto.JobOfferDto;
 import com.jobifyProject.jobify.model.JobOffer;
-import com.jobifyProject.jobify.model.User;
-import com.jobifyProject.jobify.repository.CompanyRepository;
-import com.jobifyProject.jobify.repository.JobRepository;
-import com.jobifyProject.jobify.repository.UserRepository;
+import com.jobifyProject.jobify.service.JobOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.ResourceAccessException;
 
 import java.util.*;
 
@@ -19,25 +16,22 @@ import java.util.*;
 public class JobOfferController {
 
     @Autowired
-    private JobRepository jobRepository;
+    private JobOfferConverter jobOfferConverter;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private CompanyRepository companyRepository;
+    private JobOfferService jobOfferService;
 
     @GetMapping("/jobs")
 //    @PreAuthorize("hasRole('Role_ADMIN')")
-    public List<JobOffer> getAllJobs() {
-        return jobRepository.findAll();
+    public List<JobOfferDto> getAllJobs() {
+        List<JobOffer> allJobOffers = jobOfferService.getAllJobOffers();
+        return jobOfferConverter.modelToDto(allJobOffers);
     }
 
     @GetMapping("/jobs/{id}")
-    public ResponseEntity<JobOffer> getJobById(@PathVariable UUID id) {
-        JobOffer jobOffer = jobRepository.findById(id).
-                orElseThrow(() -> new ResourceAccessException("Job with id " + id + " not found"));
-        return ResponseEntity.ok(jobOffer);
+    public JobOfferDto getJobById(@PathVariable UUID id) {
+        JobOffer jobOffer = jobOfferService.getJobById(id);
+        return jobOfferConverter.modelToDto(jobOffer);
     }
 
 //    @GetMapping("/jobs/{id}/applicants")
@@ -48,35 +42,21 @@ public class JobOfferController {
 //    }
 
     @PostMapping("/companies/{company_id}/jobs")
-    public JobOffer addJob(@RequestBody JobOffer jobOffer, @PathVariable UUID company_id) {
-        Company company = companyRepository.findById(company_id).
-                orElseThrow(() -> new ResourceAccessException("Company with id " + company_id + " not found"));
-        jobOffer.setCompany(company);
-        return jobRepository.save(jobOffer);
+    public void addJob(@RequestBody JobOfferDto jobOfferDto, @PathVariable UUID company_id) {
+        JobOffer jobOffer = jobOfferConverter.dtoToModel(jobOfferDto);
+        jobOfferService.addJob(jobOffer, company_id);
     }
 
     @PutMapping("/jobs/{id}")
-    public ResponseEntity<JobOffer> updateJobById(@PathVariable UUID id, @RequestBody JobOffer updatedJobOfferDetails) {
-        JobOffer jobOffer = jobRepository.findById(id).
-                orElseThrow(() -> new ResourceAccessException("Job with id " + id + " not found"));
-
-        jobOffer.setName(updatedJobOfferDetails.getName());
-        jobOffer.setDescription(updatedJobOfferDetails.getDescription());
-        jobOffer.setApplyLink(updatedJobOfferDetails.getApplyLink());
-        jobOffer.setType(updatedJobOfferDetails.getType());
-        jobOffer.setLocation(updatedJobOfferDetails.getLocation());
-
-        JobOffer updatedJobOffer = jobRepository.save(jobOffer);
-
-        return ResponseEntity.ok(updatedJobOffer);
+    public JobOfferDto updateJobById(@PathVariable UUID id, @RequestBody JobOfferDto jobOfferDto) {
+        JobOffer jobOffer = jobOfferConverter.dtoToModel(jobOfferDto);
+        JobOffer updatedJobOffer = jobOfferService.updateJobById(id, jobOffer);
+        return jobOfferConverter.modelToDto(updatedJobOffer);
     }
 
     @DeleteMapping("/jobs/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteJob(@PathVariable UUID id) {
-        JobOffer jobOffer = jobRepository.findById(id).
-                orElseThrow(() -> new ResourceAccessException("Job with id " + id + " not found"));
-
-        jobRepository.delete(jobOffer);
+        jobOfferService.deleteJob(id);
 
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
