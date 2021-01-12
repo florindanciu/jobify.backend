@@ -33,7 +33,7 @@ public class CompanyService {
         return jobRepository.findAllByCompanyId(id);
     }
 
-    public JobOffer getJobByIdAndCompany(UUID companyId, UUID jobId) {
+    public JobOffer getJobByIdAndCompanyId(UUID companyId, UUID jobId) {
         Company company = getCompanyById(companyId);
         return jobRepository.findByIdAndCompany(company,jobId);
     }

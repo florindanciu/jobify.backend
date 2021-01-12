@@ -1,9 +1,14 @@
 package com.jobifyProject.jobify.controller;
 
+import com.jobifyProject.jobify.converter.CompanyConverter;
+import com.jobifyProject.jobify.converter.JobOfferConverter;
+import com.jobifyProject.jobify.dto.CompanyDto;
+import com.jobifyProject.jobify.dto.JobOfferDto;
 import com.jobifyProject.jobify.model.Company;
 import com.jobifyProject.jobify.model.JobOffer;
 import com.jobifyProject.jobify.repository.CompanyRepository;
 import com.jobifyProject.jobify.repository.JobRepository;
+import com.jobifyProject.jobify.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,60 +23,55 @@ import java.util.*;
 public class CompanyController {
 
     @Autowired
-    private CompanyRepository companyRepository;
+    private CompanyConverter companyConverter;
 
     @Autowired
-    private JobRepository jobRepository;
+    private JobOfferConverter jobOfferConverter;
+
+    @Autowired
+    private CompanyService companyService;
 
     @GetMapping("/companies")
-    public List<Company> getAllCompanies() {
-        return companyRepository.findAll();
+    public List<CompanyDto> getAllCompanies() {
+        List<Company> companies = companyService.getAllCompanies();
+        return companyConverter.modelToDto(companies);
     }
 
     @GetMapping("/companies/{id}")
-    public ResponseEntity<Company> getCompanyById(@PathVariable UUID id) {
-        Company company = companyRepository.findById(id).
-                orElseThrow(() -> new ResourceAccessException("Company with id " + id + " not found"));
-        return ResponseEntity.ok(company);
+    public CompanyDto getCompanyById(@PathVariable UUID id) {
+        Company company = companyService.getCompanyById(id);
+        return companyConverter.modelToDto(company);
     }
 
     @GetMapping("/companies/{id}/jobs")
-    public List<JobOffer> getJobsByCompanyId(@PathVariable UUID id) {
-        List<JobOffer> jobOffers = jobRepository.findAllByCompanyId(id);
-        return jobOffers;
+    public List<JobOfferDto> getJobsByCompanyId(@PathVariable UUID id) {
+        List<JobOffer> jobOffers = companyService.getJobsByCompanyId(id);
+        return jobOfferConverter.modelToDto(jobOffers);
     }
 
     @GetMapping("/companies/{companyId}/jobs/{jobId}")
-    public Optional<JobOffer> getJobById(@PathVariable UUID companyId, @PathVariable UUID jobId) {
-        Company company = companyRepository.findById(companyId).orElseThrow(EntityNotFoundException::new);
-        Optional<JobOffer> job = jobRepository.findByIdAndCompany(company,jobId);
-        return job;
+    public JobOfferDto getJobByIdAndCompanyId(@PathVariable UUID companyId, @PathVariable UUID jobId) {
+        JobOffer jobOffer = companyService.getJobByIdAndCompanyId(companyId, jobId);
+        return jobOfferConverter.modelToDto(jobOffer);
     }
 
     @PostMapping("/companies")
-    public Company addCompany(@RequestBody Company company) {
-        return companyRepository.save(company);
+    public void addCompany(@RequestBody CompanyDto companyDto) {
+        Company company = companyConverter.dtoToModel(companyDto);
+        companyService.addCompany(company);
     }
 
     @PutMapping("/companies/{id}")
-    public ResponseEntity<Company> updateCompanyById(@PathVariable UUID id, @RequestBody Company updatedCompanyDetails) {
-        Company company = companyRepository.findById(id).
-                orElseThrow(() -> new ResourceAccessException("User with id " + id + " not found"));
-        company.setName(updatedCompanyDetails.getName());
-        company.setWebsiteLink(updatedCompanyDetails.getWebsiteLink());
-        company.setCompanyLogo(updatedCompanyDetails.getCompanyLogo());
+    public CompanyDto updateCompanyById(@PathVariable UUID id, @RequestBody CompanyDto companyDto) {
+        Company company = companyConverter.dtoToModel(companyDto);
+        Company updatedCompany = companyService.updateCompanyById(id, company);
 
-        Company updatedCompany = companyRepository.save(company);
-
-        return ResponseEntity.ok(updatedCompany);
+        return companyConverter.modelToDto(updatedCompany);
     }
 
     @DeleteMapping("/companies/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteCompany(@PathVariable UUID id) {
-        Company company = companyRepository.findById(id).
-                orElseThrow(() -> new ResourceAccessException("User with id " + id + " not found"));
-
-        companyRepository.delete(company);
+        companyService.deleteCompany(id);
 
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
