@@ -3,6 +3,7 @@ package com.jobifyProject.jobify.service;
 import com.jobifyProject.jobify.exception.UserNotFoundException;
 import com.jobifyProject.jobify.model.JobOffer;
 import com.jobifyProject.jobify.model.User;
+import com.jobifyProject.jobify.repository.JobRepository;
 import com.jobifyProject.jobify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private JobRepository jobRepository;
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -26,7 +30,7 @@ public class UserService {
 
     public Set<JobOffer> getFavoriteJobs(UUID id) {
         User user = getUserById(id);
-        return user.getFavoriteJobOffers();
+        return jobRepository.findJobOfferByUsersIs(user);
     }
 
     public Set<JobOffer> getAppliedJobs(UUID id) {

@@ -1,12 +1,15 @@
 package com.jobifyProject.jobify.controller;
 
 import com.jobifyProject.jobify.converter.JobOfferConverter;
+import com.jobifyProject.jobify.converter.UserConverter;
 import com.jobifyProject.jobify.dto.JobOfferDto;
 import com.jobifyProject.jobify.model.JobOffer;
+import com.jobifyProject.jobify.model.User;
 import com.jobifyProject.jobify.service.JobOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.util.*;
 
@@ -17,6 +20,9 @@ public class JobOfferController {
 
     @Autowired
     private JobOfferConverter jobOfferConverter;
+
+    @Autowired
+    private UserConverter userConverter;
 
     @Autowired
     private JobOfferService jobOfferService;
@@ -34,12 +40,11 @@ public class JobOfferController {
         return jobOfferConverter.modelToDto(jobOffer);
     }
 
-//    @GetMapping("/jobs/{id}/applicants")
-//    public Set<User> getJobOfferApplicants(@PathVariable UUID id) {
-//        JobOffer jobOffer = jobRepository.findById(id).
-//                orElseThrow(() -> new ResourceAccessException("Job with id " + id + " not found"));
-//        return jobOffer.getApplicants();
-//    }
+    @GetMapping("/jobs/{id}/applicants")
+    public Set<User> getJobOfferApplicants(@PathVariable UUID id) {
+        Set<User> applicants = jobOfferService.findJobOfferApplicants(id);
+        return userConverter.modelToDto(applicants);
+    }
 
     @PostMapping("/companies/{company_id}/jobs")
     public void addJob(@RequestBody JobOfferDto jobOfferDto, @PathVariable UUID company_id) {

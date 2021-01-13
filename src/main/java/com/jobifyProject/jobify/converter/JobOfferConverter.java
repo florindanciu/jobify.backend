@@ -21,11 +21,11 @@ public class JobOfferConverter {
     }
 
     public List<JobOfferDto> modelToDto(List<JobOffer> jobOfferList) {
-        return jobOfferList.stream().map(jobOffer -> modelToDto(jobOffer)).collect(Collectors.toList());
+        return jobOfferList.stream().map(this::modelToDto).collect(Collectors.toList());
     }
 
     public Set<JobOfferDto> modelToDto(Set<JobOffer> jobOfferSet) {
-        return jobOfferSet.stream().map(jobOffer -> modelToDto(jobOffer)).collect(Collectors.toSet());
+        return jobOfferSet.stream().map(this::modelToDto).collect(Collectors.toSet());
     }
 
     public JobOffer dtoToModel(JobOfferDto jobOfferDto) {
@@ -33,7 +33,7 @@ public class JobOfferConverter {
     }
 
     public List<JobOffer> dtoToModel(List<JobOfferDto> jobOfferDtoList) {
-        return jobOfferDtoList.stream().map(jobOfferDto -> dtoToModel(jobOfferDto)).collect(Collectors.toList());
+        return jobOfferDtoList.stream().map(this::dtoToModel).collect(Collectors.toList());
     }
 }
 

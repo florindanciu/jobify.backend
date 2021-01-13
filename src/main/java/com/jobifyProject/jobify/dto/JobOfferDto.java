@@ -25,6 +25,4 @@ public class JobOfferDto {
     private JobOfferStates state;
     private User employed;
     private Company company;
-    private Set<User> applicants = new HashSet<>();
-    private Set<User> users = new HashSet<>();
 }

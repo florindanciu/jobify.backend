@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+
 @Setter @Getter
 @NoArgsConstructor
 @Entity
@@ -25,14 +26,18 @@ public class User {
     private String email;
     private String password;
 
+
     @OneToMany(mappedBy = "employed")
     private List<JobOffer> workedAt;
 
     @ManyToMany
-    @JsonIgnore
     private Set<JobOffer> favoriteJobOffers;
 
     @ManyToMany
     private Set<JobOffer> appliedJobs = new HashSet<>();
 
+    @Override
+    public String toString(){
+        return "User [id=" + id + ", name=" + username + "]";
+    }
 }
