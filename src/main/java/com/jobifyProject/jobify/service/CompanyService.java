@@ -51,11 +51,7 @@ public class CompanyService {
         return companyRepository.save(company);
     }
 
-    public ResponseEntity<Map<String, Boolean>> deleteCompany(UUID id) {
+    public void deleteCompany(UUID id) {
         companyRepository.delete(getCompanyById(id));
-
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
-        return ResponseEntity.ok(response);
     }
 }

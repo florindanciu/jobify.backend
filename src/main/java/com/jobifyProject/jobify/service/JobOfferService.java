@@ -58,16 +58,13 @@ public class JobOfferService {
         return jobRepository.save(jobOffer);
     }
 
-    public ResponseEntity<Map<String, Boolean>> deleteJob(UUID id) {
+    public void deleteJob(UUID id) {
         jobRepository.delete(getJobById(id));
-
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
-        return ResponseEntity.ok(response);
     }
 
     public Set<User> findJobOfferApplicants(UUID id) {
-        Optional<JobOffer> jobOffer = jobRepository.findById(id);
-        return jobOffer.get().getApplicants();
+        JobOffer jobOffer = jobRepository.findById(id).
+                orElseThrow(() -> new JobNotFoundException(id));
+        return jobOffer.getApplicants();
     }
 }

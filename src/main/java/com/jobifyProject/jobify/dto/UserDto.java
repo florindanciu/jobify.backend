@@ -15,7 +15,4 @@ public class UserDto {
     private String role;
     private String email;
     private String password;
-    private List<JobOffer> workedAt;
-    private Set<JobOffer> favoriteJobOffers;
-    private Set<JobOffer> appliedJobs;
 }
