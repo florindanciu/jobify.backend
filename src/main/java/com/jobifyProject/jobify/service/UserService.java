@@ -48,8 +48,7 @@ public class UserService {
         user.setRole(updatedUser.getRole());
         user.setEmail(updatedUser.getEmail());
         user.setPassword(updatedUser.getPassword());
-
-       return userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public void deleteUser(UUID id) {

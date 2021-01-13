@@ -1,6 +1,5 @@
 package com.jobifyProject.jobify.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jobifyProject.jobify.model.Company;
 import com.jobifyProject.jobify.model.JobOfferStates;
 import com.jobifyProject.jobify.model.User;
@@ -12,7 +11,6 @@ import java.util.UUID;
 @Data
 public class JobOfferDto {
 
-    @JsonIgnore
     private UUID id;
     private String name;
     private String description;

@@ -7,9 +7,7 @@ import com.jobifyProject.jobify.model.JobOffer;
 import com.jobifyProject.jobify.model.User;
 import com.jobifyProject.jobify.repository.CompanyRepository;
 import com.jobifyProject.jobify.repository.JobRepository;
-import com.jobifyProject.jobify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -22,9 +20,6 @@ public class JobOfferService {
 
     @Autowired
     private CompanyRepository companyRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     public List<JobOffer> getAllJobOffers() {
         return jobRepository.findAll();
@@ -50,7 +45,6 @@ public class JobOfferService {
         jobOffer.setApplyLink(updatedJobOffer.getApplyLink());
         jobOffer.setType(updatedJobOffer.getType());
         jobOffer.setLocation(updatedJobOffer.getLocation());
-
         return jobRepository.save(jobOffer);
     }
 
