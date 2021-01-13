@@ -1,14 +1,9 @@
 package com.jobifyProject.jobify.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.sql.Insert;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +13,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "jobOffers")
+@Table(name = "job_offers")
 public class JobOffer {
 
     @Id
@@ -34,19 +29,15 @@ public class JobOffer {
 //    @Enumerated(EnumType.STRING)
 //    private JobOfferStates state;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private User employed;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Company company;
 
-    @ToString.Exclude
-    @JsonBackReference
     @ManyToMany(mappedBy = "appliedJobs")
     private Set<User> applicants = new HashSet<>();
 
-    @ToString.Exclude
-    @JsonBackReference // indicate that this is child class compared to User
     @ManyToMany(mappedBy = "favoriteJobOffers",fetch = FetchType.LAZY)
     private Set<User> users = new HashSet<>();
 
@@ -54,7 +45,4 @@ public class JobOffer {
     public String toString(){
         return "JobOffer [id=" + id + ", name=" + name + "]";
     }
-
-
-
 }
