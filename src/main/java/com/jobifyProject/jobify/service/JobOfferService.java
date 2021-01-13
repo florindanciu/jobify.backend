@@ -30,6 +30,10 @@ public class JobOfferService {
                 orElseThrow(() -> new JobNotFoundException(id));
     }
 
+    public Set<JobOffer> findJobsByLocation(String location) {
+        return jobRepository.findJobOffersByLocationIs(location);
+    }
+
     public void addJob(JobOffer jobOffer, UUID company_id) {
         Company company = companyRepository.findById(company_id).
                 orElseThrow(() -> new CompanyNotFoundException(company_id));

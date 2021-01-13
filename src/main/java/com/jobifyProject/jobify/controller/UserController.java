@@ -1,11 +1,15 @@
 package com.jobifyProject.jobify.controller;
 
 import com.jobifyProject.jobify.converter.JobOfferConverter;
+import com.jobifyProject.jobify.converter.SkillConverter;
 import com.jobifyProject.jobify.converter.UserConverter;
 import com.jobifyProject.jobify.dto.JobOfferDto;
+import com.jobifyProject.jobify.dto.SkillDto;
 import com.jobifyProject.jobify.dto.UserDto;
 import com.jobifyProject.jobify.model.JobOffer;
+import com.jobifyProject.jobify.model.Skill;
 import com.jobifyProject.jobify.model.User;
+import com.jobifyProject.jobify.repository.SkillRepository;
 import com.jobifyProject.jobify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +29,11 @@ public class UserController {
     private JobOfferConverter jobOfferConverter;
 
     @Autowired
+    private SkillConverter skillConverter;
+
+    @Autowired
     private UserService userService;
+
 
     @GetMapping("/users")
     public List<UserDto> getAllUsers() {
@@ -39,10 +47,15 @@ public class UserController {
         return userConverter.modelToDto(user);
     }
 
+    @GetMapping("/users/{userId}/skills")
+    public Set<SkillDto> getSkillsOfUser(@PathVariable UUID userId) {
+        Set<Skill> skills = userService.findSkillsOfUser(userId);
+        return skillConverter.modelToDto(skills);
+    }
+
     @GetMapping("/users/{id}/favoriteJobs")
     public Set<JobOfferDto> getFavoriteJobs(@PathVariable UUID id) {
         Set<JobOffer> jobOffers = userService.getFavoriteJobs(id);
-        System.out.println(jobOffers);
         return jobOfferConverter.modelToDto(jobOffers);
     }
 

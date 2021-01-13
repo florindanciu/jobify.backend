@@ -6,6 +6,7 @@ import com.jobifyProject.jobify.dto.JobOfferDto;
 import com.jobifyProject.jobify.model.JobOffer;
 import com.jobifyProject.jobify.model.User;
 import com.jobifyProject.jobify.service.JobOfferService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,6 +57,12 @@ public class JobOfferController {
         JobOffer jobOffer = jobOfferConverter.dtoToModel(jobOfferDto);
         JobOffer updatedJobOffer = jobOfferService.updateJobById(id, jobOffer);
         return jobOfferConverter.modelToDto(updatedJobOffer);
+    }
+
+    @GetMapping("/jobs/location/{location}")
+    public Set<JobOfferDto> getJobByLocation(@PathVariable String location) {
+        Set<JobOffer> jobOffers = jobOfferService.findJobsByLocation(location);
+        return jobOfferConverter.modelToDto(jobOffers);
     }
 
     @DeleteMapping("/jobs/{id}")
