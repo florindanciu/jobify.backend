@@ -10,8 +10,6 @@ import java.util.UUID;
 
 @Data
 public class UserDto {
-
-    @JsonIgnore
     private UUID id;
     private String username;
     private String role;

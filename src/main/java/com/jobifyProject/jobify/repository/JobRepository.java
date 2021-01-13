@@ -23,4 +23,6 @@ public interface JobRepository extends JpaRepository<JobOffer, UUID> {
 
     Set<JobOffer> findJobOfferByUsersIs(User user);
 
+    Set<JobOffer> findJobOffersByLocationIs(String location);
+
 }

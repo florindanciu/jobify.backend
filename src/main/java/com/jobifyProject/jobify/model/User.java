@@ -36,6 +36,9 @@ public class User {
     @ManyToMany
     private Set<JobOffer> appliedJobs = new HashSet<>();
 
+    @OneToMany
+    private Set<Skill> skills = new HashSet<>();
+
     @Override
     public String toString(){
         return "User [id=" + id + ", name=" + username + "]";
