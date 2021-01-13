@@ -1,8 +1,7 @@
 package com.jobifyProject.jobify.model;
 
-import lombok.Data;
-import lombok.Generated;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.sql.Insert;
 
@@ -12,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "jobs")
@@ -43,5 +42,4 @@ public class JobOffer {
 
     @ManyToMany(mappedBy = "favoriteJobOffers")
     private Set<User> users = new HashSet<>();
-
 }
