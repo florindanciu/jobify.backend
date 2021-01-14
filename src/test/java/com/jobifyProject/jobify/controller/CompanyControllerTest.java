@@ -1,5 +1,6 @@
 package com.jobifyProject.jobify.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jobifyProject.jobify.model.Company;
 import com.jobifyProject.jobify.model.JobOffer;
 import com.jobifyProject.jobify.service.CompanyService;
@@ -13,12 +14,18 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 class CompanyControllerTest {
+
+    private final ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
     private MockMvc mockMvc;
@@ -127,7 +134,22 @@ class CompanyControllerTest {
     }
 
     @Test
-    void addCompany() {
+    void addCompany() throws Exception {
+        Company companyToSave = Company.builder()
+                .name("Test company name")
+                .websiteLink("linkForTheCompany.com")
+                .companyLogo("logoOfTheCompany")
+                .build();
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/v1/companies").
+                        contentType(MediaType.APPLICATION_JSON).
+                        content(mapper.writeValueAsString(companyToSave))).
+                andExpect(MockMvcResultMatchers.status().isOk());
+
+        List<String> dbCompanies = new ArrayList<>();
+        companyService.getAllCompanies().forEach(company -> dbCompanies.add(company.getName()));
+        assertThat(dbCompanies).contains(companyToSave.getName());
     }
 
     @Test
