@@ -21,8 +21,11 @@ public interface JobRepository extends JpaRepository<JobOffer, UUID> {
             value = "SELECT j FROM JobOffer j WHERE j.id = :jobId AND j.company = :company")
     JobOffer findByIdAndCompany(@Param("company") Company company, @Param("jobId") UUID jobId);
 
-    Set<JobOffer> findJobOfferByUsersIs(User user);
+    Set<JobOffer> findJobOfferByUsersStartsWith(User user);
 
-    Set<JobOffer> findJobOffersByLocationIs(String location);
+    Set<JobOffer> findJobOffersByLocationStartsWith(String location);
 
+    Set<JobOffer> findJobOffersByNameStartsWith(String name);
+
+    Set<JobOffer> findJobOffersByNameStartsWithAndLocationStartsWith(String name,String location);
 }

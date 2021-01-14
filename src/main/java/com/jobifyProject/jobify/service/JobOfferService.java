@@ -36,7 +36,15 @@ public class JobOfferService {
     }
 
     public Set<JobOffer> findJobsByLocation(String location) {
-        return jobRepository.findJobOffersByLocationIs(location);
+        return jobRepository.findJobOffersByLocationStartsWith(location);
+    }
+
+    public Set<JobOffer> findJobsByName(String name) {
+        return jobRepository.findJobOffersByNameStartsWith(name);
+    }
+
+    public Set<JobOffer> findJobsByNameAndLocation(String name, String location) {
+        return jobRepository.findJobOffersByNameStartsWithAndLocationStartsWith(name, location);
     }
 
     public void addJob(JobOffer jobOffer, UUID company_id) {
@@ -67,4 +75,6 @@ public class JobOfferService {
                 orElseThrow(() -> new JobNotFoundException(id));
         return jobOffer.getApplicants();
     }
+
+
 }
