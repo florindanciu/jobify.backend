@@ -35,7 +35,7 @@ public class UserService {
 
     public Set<JobOffer> getFavoriteJobs(UUID id) {
         User user = getUserById(id);
-        return jobRepository.findJobOfferByUsersIs(user);
+        return jobRepository.findJobOfferByUsersStartsWith(user);
     }
 
     public Set<JobOffer> getAppliedJobs(UUID id) {

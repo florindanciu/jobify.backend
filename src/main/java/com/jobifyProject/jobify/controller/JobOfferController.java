@@ -65,6 +65,18 @@ public class JobOfferController {
         return jobOfferConverter.modelToDto(jobOffers);
     }
 
+    @GetMapping("/jobs/jobName/{name}")
+    public Set<JobOfferDto> getJobByName(@PathVariable String name) {
+        Set<JobOffer> jobOffers = jobOfferService.findJobsByName(name);
+        return jobOfferConverter.modelToDto(jobOffers);
+    }
+
+    @GetMapping("/jobs/name/{name}/location/{location}")
+    public Set<JobOfferDto> getJobByNameAndLocation(@PathVariable String name, @PathVariable String location) {
+        Set<JobOffer> jobOffers = jobOfferService.findJobsByNameAndLocation(name,location);
+        return jobOfferConverter.modelToDto(jobOffers);
+    }
+
     @DeleteMapping("/jobs/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteJob(@PathVariable UUID id) {
         jobOfferService.deleteJob(id);
