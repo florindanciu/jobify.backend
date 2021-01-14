@@ -29,8 +29,8 @@ public class JobOffer {
 //    @Enumerated(EnumType.STRING)
 //    private JobOfferStates state;
 
-    @ManyToOne
-    private User employed;
+    @ManyToMany(mappedBy = "workedAt")
+    private Set<User> employed;
 
     @ManyToOne
     private Company company;

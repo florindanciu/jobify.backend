@@ -64,4 +64,8 @@ public class UserService {
     public void deleteUser(UUID id) {
         userRepository.delete(getUserById(id));
     }
+
+    public Set<User> getUsersLookingForJob() {
+        return userRepository.findUsersByLookingForJobIsTrue();
+    }
 }

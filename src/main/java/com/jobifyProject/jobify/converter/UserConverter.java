@@ -24,8 +24,8 @@ public class UserConverter {
         return userList.stream().map(this::modelToDto).collect(Collectors.toList());
     }
 
-    public Set<User> modelToDto(Set<User> userList) {
-        return userList.stream().map(this::dtoToModel).collect(Collectors.toSet());
+    public Set<UserDto> modelToDto(Set<User> userList) {
+        return userList.stream().map(this::modelToDto).collect(Collectors.toSet());
     }
 
     private User dtoToModel(User user) {
