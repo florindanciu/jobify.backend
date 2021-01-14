@@ -37,15 +37,15 @@ public class JobOfferService {
     }
 
     public Set<JobOffer> findJobsByLocation(String location) {
-        return jobRepository.findJobOffersByLocationStartsWith(location);
+        return jobRepository.findJobOffersByLocationContainingIgnoreCase(location);
     }
 
     public List<JobOffer> findJobsByName(String name) {
-        return jobRepository.findJobOffersByNameStartsWith(name);
+        return jobRepository.findJobOfferByNameContainingIgnoreCase(name);
     }
 
     public Set<JobOffer> findJobsByNameAndLocation(String name, String location) {
-        return jobRepository.findJobOffersByNameStartsWithAndLocationStartsWith(name, location);
+        return jobRepository.findJobOffersByNameContainingIgnoreCaseAndLocationContainingIgnoreCase(name, location);
     }
 
     public void addJob(JobOffer jobOffer, UUID company_id) {

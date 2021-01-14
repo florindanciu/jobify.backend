@@ -22,9 +22,10 @@ public interface JobRepository extends JpaRepository<JobOffer, UUID> {
 
     Set<JobOffer> findJobOfferByUsersStartsWith(User user);
 
-    Set<JobOffer> findJobOffersByLocationStartsWith(String location);
+    Set<JobOffer> findJobOffersByLocationContainingIgnoreCase(String location);
 
-    Set<JobOffer> findJobOffersByNameStartsWithAndLocationStartsWith(String name,String location);
+    Set<JobOffer> findJobOffersByNameContainingIgnoreCaseAndLocationContainingIgnoreCase(String name,String location);
 
-    List<JobOffer> findJobOffersByNameStartsWith(String name);
+    List<JobOffer> findJobOfferByNameContainingIgnoreCase(String name);
+
 }
