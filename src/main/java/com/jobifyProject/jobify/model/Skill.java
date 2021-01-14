@@ -19,7 +19,7 @@ public class Skill {
     private UUID id;
     private String name;
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne
     private User user;
 }

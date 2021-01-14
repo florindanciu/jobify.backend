@@ -29,10 +29,11 @@ public class UserController {
     private JobOfferConverter jobOfferConverter;
 
     @Autowired
-    private UserService userService;
+    private SkillConverter skillConverter;
 
     @Autowired
-    private SkillConverter skillConverter;
+    private UserService userService;
+
 
     @GetMapping("/users")
     public List<UserDto> getAllUsers() {

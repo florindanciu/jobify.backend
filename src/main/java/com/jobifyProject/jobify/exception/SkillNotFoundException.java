@@ -7,9 +7,9 @@ import java.text.MessageFormat;
 import java.util.UUID;
 
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
-public class CompanyNotFoundException extends RuntimeException {
+public class SkillNotFoundException extends RuntimeException{
 
-    public CompanyNotFoundException(UUID id) {
-        super(MessageFormat.format("Company with id {0} not found", id));
+    public SkillNotFoundException(UUID id) {
+        super(MessageFormat.format("Skill with id {0} not found", id));
     }
 }

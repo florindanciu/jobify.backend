@@ -1,5 +1,7 @@
 package com.jobifyProject.jobify.service;
 
+import com.jobifyProject.jobify.exception.SkillNotFoundException;
+import com.jobifyProject.jobify.exception.UserNotFoundException;
 import com.jobifyProject.jobify.model.Skill;
 import com.jobifyProject.jobify.model.User;
 import com.jobifyProject.jobify.repository.SkillRepository;
@@ -8,7 +10,10 @@ import org.checkerframework.checker.nullness.Opt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -21,8 +26,20 @@ public class SkillService {
     @Autowired
     private UserRepository userRepository;
 
-    private Set<Skill> findSkillsOfUser(UUID userId){
-        Optional<User> user = userRepository.findById(userId);
-        return skillRepository.findSkillsByUserIs(user.get());
+    public List<Skill> getAllSkills() {
+        return skillRepository.findAll();
+    }
+
+    public void addSkill(UUID userId, Skill skill) {
+        User user = userRepository.findById(userId).
+                orElseThrow(() -> new UserNotFoundException(userId));
+        skill.setUser(user);
+        skillRepository.save(skill);
+    }
+
+    public void deleteSkill(UUID skillId) {
+        Skill skill = skillRepository.findById(skillId).
+                orElseThrow(() -> new SkillNotFoundException(skillId));
+        skillRepository.delete(skill);
     }
 }

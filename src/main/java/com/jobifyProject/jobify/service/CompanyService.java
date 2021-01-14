@@ -6,7 +6,6 @@ import com.jobifyProject.jobify.model.JobOffer;
 import com.jobifyProject.jobify.repository.CompanyRepository;
 import com.jobifyProject.jobify.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -47,7 +46,6 @@ public class CompanyService {
         company.setName(updatedCompany.getName());
         company.setWebsiteLink(updatedCompany.getWebsiteLink());
         company.setCompanyLogo(updatedCompany.getCompanyLogo());
-
         return companyRepository.save(company);
     }
 

@@ -9,7 +9,6 @@ import java.util.Set;
 import java.util.UUID;
 
 public interface SkillRepository extends JpaRepository<Skill, UUID> {
-    List<Skill> findAll();
 
     Set<Skill> findSkillsByUserIs(User user);
 }

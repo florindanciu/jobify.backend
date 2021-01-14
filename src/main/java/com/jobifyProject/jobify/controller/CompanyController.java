@@ -6,15 +6,11 @@ import com.jobifyProject.jobify.dto.CompanyDto;
 import com.jobifyProject.jobify.dto.JobOfferDto;
 import com.jobifyProject.jobify.model.Company;
 import com.jobifyProject.jobify.model.JobOffer;
-import com.jobifyProject.jobify.repository.CompanyRepository;
-import com.jobifyProject.jobify.repository.JobRepository;
 import com.jobifyProject.jobify.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.ResourceAccessException;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.*;
 
 @RestController
@@ -65,7 +61,6 @@ public class CompanyController {
     public CompanyDto updateCompanyById(@PathVariable UUID id, @RequestBody CompanyDto companyDto) {
         Company company = companyConverter.dtoToModel(companyDto);
         Company updatedCompany = companyService.updateCompanyById(id, company);
-
         return companyConverter.modelToDto(updatedCompany);
     }
 

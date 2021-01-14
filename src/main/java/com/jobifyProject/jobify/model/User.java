@@ -1,15 +1,11 @@
 package com.jobifyProject.jobify.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 
 @Setter @Getter
@@ -36,8 +32,8 @@ public class User {
     @ManyToMany
     private Set<JobOffer> appliedJobs = new HashSet<>();
 
-    @OneToMany
-    private Set<Skill> skills = new HashSet<>();
+    @OneToMany(mappedBy = "user")
+    private List<Skill> skills = new ArrayList<>();
 
     @Override
     public String toString(){

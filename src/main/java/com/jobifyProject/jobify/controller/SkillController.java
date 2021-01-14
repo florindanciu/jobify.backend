@@ -1,17 +1,14 @@
 package com.jobifyProject.jobify.controller;
 
-import com.jobifyProject.jobify.dto.JobOfferDto;
-import com.jobifyProject.jobify.model.JobOffer;
+import com.jobifyProject.jobify.converter.SkillConverter;
+import com.jobifyProject.jobify.dto.SkillDto;
 import com.jobifyProject.jobify.model.Skill;
-import com.jobifyProject.jobify.model.User;
-import com.jobifyProject.jobify.repository.SkillRepository;
+import com.jobifyProject.jobify.service.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/")
@@ -19,21 +16,29 @@ import java.util.UUID;
 public class SkillController {
 
     @Autowired
-    private SkillRepository skillRepository;
+    private SkillConverter skillConverter;
+
+    @Autowired
+    private SkillService skillService;
 
     @GetMapping("/skills")
-    public List<Skill> getAllSkills() {
-        return skillRepository.findAll();
+    public List<SkillDto> getAllSkills() {
+        List<Skill> skillList = skillService.getAllSkills();
+        return skillConverter.modelToDto(skillList);
     }
 
-    @PostMapping("/skills")
-    public void addSkill(@RequestBody Skill skill) {
-        skillRepository.save(skill);
+    @PostMapping("/skills/{userId}")
+    public void addSkill(@PathVariable UUID userId, @RequestBody SkillDto skillDto) {
+        Skill skill = skillConverter.dtoToModel(skillDto);
+        skillService.addSkill(userId, skill);
     }
 
     @DeleteMapping("/skills/{skillId}")
-    public void deleteSkill(@PathVariable UUID skillId) {
-        Optional<Skill> skill = skillRepository.findById(skillId);
-        skillRepository.delete(skill.get());
+    public ResponseEntity<Map<String, Boolean>> deleteSkill(@PathVariable UUID skillId) {
+        skillService.deleteSkill(skillId);
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return ResponseEntity.ok(response);
     }
 }
