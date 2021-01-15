@@ -42,11 +42,11 @@ public class JobOfferService {
         return jobRepository.findJobOffersByNameStartsWithAndLocationStartsWith(name, location);
     }
 
-    public void addJob(JobOffer jobOffer, UUID company_id) {
+    public JobOffer addJob(JobOffer jobOffer, UUID company_id) {
         Company company = companyRepository.findById(company_id).
                 orElseThrow(() -> new CompanyNotFoundException(company_id));
         jobOffer.setCompany(company);
-        jobRepository.save(jobOffer);
+        return jobRepository.save(jobOffer);
     }
 
     public JobOffer updateJobById(UUID id, JobOffer updatedJobOffer) {
