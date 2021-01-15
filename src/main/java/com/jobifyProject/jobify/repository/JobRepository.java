@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -23,9 +22,10 @@ public interface JobRepository extends JpaRepository<JobOffer, UUID> {
 
     Set<JobOffer> findJobOfferByUsersStartsWith(User user);
 
-    Set<JobOffer> findJobOffersByLocationStartsWith(String location);
+    Set<JobOffer> findJobOffersByLocationContainingIgnoreCase(String location);
 
-    Set<JobOffer> findJobOffersByNameStartsWith(String name);
+    Set<JobOffer> findJobOffersByNameContainingIgnoreCaseAndLocationContainingIgnoreCase(String name,String location);
 
-    Set<JobOffer> findJobOffersByNameStartsWithAndLocationStartsWith(String name,String location);
+    List<JobOffer> findJobOfferByNameContainingIgnoreCase(String name);
+
 }

@@ -7,7 +7,10 @@ import com.jobifyProject.jobify.model.JobOffer;
 import com.jobifyProject.jobify.model.User;
 import com.jobifyProject.jobify.repository.CompanyRepository;
 import com.jobifyProject.jobify.repository.JobRepository;
+import com.jobifyProject.jobify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -17,6 +20,9 @@ public class JobOfferService {
 
     @Autowired
     private JobRepository jobRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private CompanyRepository companyRepository;
@@ -31,15 +37,15 @@ public class JobOfferService {
     }
 
     public Set<JobOffer> findJobsByLocation(String location) {
-        return jobRepository.findJobOffersByLocationStartsWith(location);
+        return jobRepository.findJobOffersByLocationContainingIgnoreCase(location);
     }
 
-    public Set<JobOffer> findJobsByName(String name) {
-        return jobRepository.findJobOffersByNameStartsWith(name);
+    public List<JobOffer> findJobsByName(String name) {
+        return jobRepository.findJobOfferByNameContainingIgnoreCase(name);
     }
 
     public Set<JobOffer> findJobsByNameAndLocation(String name, String location) {
-        return jobRepository.findJobOffersByNameStartsWithAndLocationStartsWith(name, location);
+        return jobRepository.findJobOffersByNameContainingIgnoreCaseAndLocationContainingIgnoreCase(name, location);
     }
 
     public JobOffer addJob(JobOffer jobOffer, UUID company_id) {
@@ -70,5 +76,7 @@ public class JobOfferService {
         return jobOffer.getApplicants();
     }
 
-
+    public Set<User> findJobOfferEmployees(JobOffer jobOffer) {
+        return userRepository.findUsersByWorkedAtIs(jobOffer);
+    }
 }

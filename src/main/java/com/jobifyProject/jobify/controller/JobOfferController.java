@@ -3,6 +3,7 @@ package com.jobifyProject.jobify.controller;
 import com.jobifyProject.jobify.converter.JobOfferConverter;
 import com.jobifyProject.jobify.converter.UserConverter;
 import com.jobifyProject.jobify.dto.JobOfferDto;
+import com.jobifyProject.jobify.dto.UserDto;
 import com.jobifyProject.jobify.model.JobOffer;
 import com.jobifyProject.jobify.model.User;
 import com.jobifyProject.jobify.service.JobOfferService;
@@ -41,9 +42,16 @@ public class JobOfferController {
     }
 
     @GetMapping("/jobs/{id}/applicants")
-    public Set<User> getJobOfferApplicants(@PathVariable UUID id) {
+    public Set<UserDto> getJobOfferApplicants(@PathVariable UUID id) {
         Set<User> applicants = jobOfferService.findJobOfferApplicants(id);
         return userConverter.modelToDto(applicants);
+    }
+
+    @GetMapping("/jobs/{id}/employees")
+    public Set<UserDto> getJobOfferEmployees(@PathVariable UUID id) {
+        JobOffer jobOffer = jobOfferService.getJobById(id);
+        Set<User> employees = jobOfferService.findJobOfferEmployees(jobOffer);
+        return userConverter.modelToDto(employees);
     }
 
     @PostMapping("/companies/{company_id}/jobs")
@@ -66,8 +74,9 @@ public class JobOfferController {
     }
 
     @GetMapping("/jobs/jobName/{name}")
-    public Set<JobOfferDto> getJobByName(@PathVariable String name) {
-        Set<JobOffer> jobOffers = jobOfferService.findJobsByName(name);
+    public List<JobOfferDto> getJobByName(@PathVariable String name) {
+        List<JobOffer> jobOffers = jobOfferService.findJobsByName(name);
+        System.out.println(jobOffers);
         return jobOfferConverter.modelToDto(jobOffers);
     }
 
@@ -76,6 +85,12 @@ public class JobOfferController {
         Set<JobOffer> jobOffers = jobOfferService.findJobsByNameAndLocation(name,location);
         return jobOfferConverter.modelToDto(jobOffers);
     }
+
+//    @GetMapping("/jobs/newest")
+//    public Set<JobOfferDto> getLatestJobs() {
+//        Set<JobOffer> jobOffers = jobOfferService.findLatestJobs();
+//        return jobOfferConverter.modelToDto(jobOffers);
+//    }
 
     @DeleteMapping("/jobs/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteJob(@PathVariable UUID id) {

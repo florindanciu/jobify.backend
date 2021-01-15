@@ -1,5 +1,6 @@
 package com.jobifyProject.jobify.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,9 +22,12 @@ public class User {
     private String role;
     private String email;
     private String password;
+    private String age;
+    private String experience;
+    private Boolean lookingForJob;
+    private String image;
 
-
-    @OneToMany(mappedBy = "employed")
+    @ManyToMany
     private List<JobOffer> workedAt;
 
     @ManyToMany

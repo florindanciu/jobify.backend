@@ -47,6 +47,12 @@ public class UserController {
         return userConverter.modelToDto(user);
     }
 
+    @GetMapping("/users/lookingForJob")
+    public Set<UserDto> getUsersLookingForJob() {
+        Set<User> users = userService.getUsersLookingForJob();
+        return userConverter.modelToDto(users);
+    }
+
     @GetMapping("/users/{userId}/skills")
     public Set<SkillDto> getSkillsOfUser(@PathVariable UUID userId) {
         Set<Skill> skills = userService.findSkillsOfUser(userId);
