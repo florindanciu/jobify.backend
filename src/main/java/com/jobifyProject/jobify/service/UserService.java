@@ -55,7 +55,6 @@ public class UserService {
     public User updateUserById(UUID id, User updatedUser) {
         User user = getUserById(id);
         user.setUsername(updatedUser.getUsername());
-        user.setRole(updatedUser.getRole());
         user.setEmail(updatedUser.getEmail());
         user.setPassword(updatedUser.getPassword());
         return userRepository.save(user);
