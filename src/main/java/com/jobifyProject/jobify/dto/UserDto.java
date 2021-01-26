@@ -1,9 +1,8 @@
 package com.jobifyProject.jobify.dto;
 
-import com.jobifyProject.jobify.model.Skill;
 import lombok.Data;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -16,4 +15,5 @@ public class UserDto {
     private String experience;
     private String age;
     private String image;
+    private Set<String> roles;
 }

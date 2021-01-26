@@ -1,5 +1,6 @@
 package com.jobifyProject.jobify.dto.request;
 
+import com.jobifyProject.jobify.model.Role;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +21,7 @@ public class SignupRequest {
     @Email
     private String email;
 
-    private Set<String> role;
+    private Set<Role> roles;
 
     @NotBlank
     @Size(min = 6, max = 40)
