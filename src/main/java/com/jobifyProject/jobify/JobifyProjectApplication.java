@@ -1,14 +1,24 @@
 package com.jobifyProject.jobify;
 
+import com.jobifyProject.jobify.model.EnumRole;
+import com.jobifyProject.jobify.model.Role;
+import com.jobifyProject.jobify.service.RoleService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.util.List;
+
 @EnableSwagger2
 @SpringBootApplication
 public class JobifyProjectApplication {
+
+    @Autowired
+    private RoleService roleService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(JobifyProjectApplication.class, args);
@@ -18,6 +28,19 @@ public class JobifyProjectApplication {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
+
+    @Bean
+    public CommandLineRunner init() {
+        return args -> {
+            Role user = new Role();
+            user.setName(EnumRole.ROLE_USER);
+            Role company = new Role();
+            company.setName(EnumRole.ROLE_COMPANY);
+            Role admin = new Role();
+            admin.setName(EnumRole.ROLE_ADMIN);
+            roleService.saveAll(List.of(user, company, admin));
+        };
+    }
 
 //	@Bean
 //	public Docket swaggerConfig(){

@@ -42,6 +42,14 @@ public class User {
     private Boolean lookingForJob;
     private String image;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
     public User(
             @NotBlank @Size(max = 20) String username,
             @NotBlank @Size(max = 50) @Email String email,
@@ -51,14 +59,6 @@ public class User {
         this.email = email;
         this.password = password;
     }
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
 
     @ManyToMany
     private List<JobOffer> workedAt;

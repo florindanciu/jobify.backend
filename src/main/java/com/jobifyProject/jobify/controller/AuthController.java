@@ -1,14 +1,14 @@
 package com.jobifyProject.jobify.controller;
 
+import com.jobifyProject.jobify.converter.CompanyConverter;
 import com.jobifyProject.jobify.converter.UserConverter;
+import com.jobifyProject.jobify.dto.CompanyDto;
 import com.jobifyProject.jobify.dto.UserDto;
 import com.jobifyProject.jobify.dto.request.LoginRequest;
 import com.jobifyProject.jobify.dto.response.JwtResponse;
-import com.jobifyProject.jobify.model.EnumRole;
-import com.jobifyProject.jobify.model.Role;
-import com.jobifyProject.jobify.model.User;
-import com.jobifyProject.jobify.model.UserDetailsImpl;
+import com.jobifyProject.jobify.model.*;
 import com.jobifyProject.jobify.security.jwt.JWTService;
+import com.jobifyProject.jobify.service.CompanyService;
 import com.jobifyProject.jobify.service.RoleService;
 import com.jobifyProject.jobify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +39,16 @@ public class AuthController {
     private UserService userService;
 
     @Autowired
+    private CompanyService companyService;
+
+    @Autowired
     private RoleService roleService;
 
     @Autowired
     private UserConverter userConverter;
+
+    @Autowired
+    private CompanyConverter companyConverter;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -94,7 +100,54 @@ public class AuthController {
 
         user.setRoles(roles);
         userService.addUser(user);
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok("User registered successfully!");
+    }
+
+    @PostMapping("/company-signup")
+    public ResponseEntity<?> registerCompany(@Valid @RequestBody CompanyDto companyDto) {
+
+        if (companyService.existsByName(companyDto.getName())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Error: Company name is already taken!");
+        }
+
+        if (companyService.existsByEmail(companyDto.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Error: Email is already in use!");
+        }
+
+        Company company = companyConverter.dtoToModel(companyDto);
+        company.setPassword(passwordEncoder.encode(company.getPassword()));
+
+        Set<String> strRoles = companyDto.getRoles();
+        Set<Role> roles = new HashSet<>();
+        if (strRoles == null) {
+            Role companyRole = roleService.findByName(EnumRole.ROLE_COMPANY);
+            roles.add(companyRole);
+        } else {
+            strRoles.forEach(role -> {
+                switch (role) {
+                    case "admin" -> {
+                        Role adminRole = roleService.findByName(EnumRole.ROLE_ADMIN);
+                        roles.add(adminRole);
+                    }
+                    case "user" -> {
+                        Role userRole = roleService.findByName(EnumRole.ROLE_USER);
+                        roles.add(userRole);
+                    }
+                    default -> {
+                        Role companyRole = roleService.findByName(EnumRole.ROLE_COMPANY);
+                        roles.add(companyRole);
+                    }
+                }
+            });
+        }
+
+        company.setRoles(roles);
+        companyService.addCompany(company);
+        return ResponseEntity.ok("Company registered successfully!");
     }
 
     @PostMapping("/signin")
