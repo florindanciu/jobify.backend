@@ -19,7 +19,7 @@ public class Role {
 
     @Id
     @GeneratedValue
-    private UUID id;
+    private int id;
 
     @Enumerated(EnumType.STRING)
     private EnumRole name;

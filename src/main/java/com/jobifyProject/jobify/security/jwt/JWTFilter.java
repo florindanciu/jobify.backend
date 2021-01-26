@@ -30,6 +30,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        System.out.println("jwt filter internal");
         try {
             String jwt = parseJwt(request);
             if (jwt != null && jwtService.validateJwt(jwt)) {
@@ -40,10 +41,15 @@ public class JWTFilter extends OncePerRequestFilter {
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                System.out.println("jwt filter internal goes in try");
             }
+
         } catch (Exception e) {
             logger.error("Cannot set user authentication: {}", e.getMessage());
+            System.out.println("jwt filter internal goes in catch");
         }
+
+        filterChain.doFilter(request, response);
     }
 
     private String parseJwt(HttpServletRequest request) {
