@@ -8,7 +8,6 @@ import com.jobifyProject.jobify.repository.JobRepository;
 import com.jobifyProject.jobify.repository.SkillRepository;
 import com.jobifyProject.jobify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -76,6 +75,7 @@ public class UserService {
     public Boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
     }
+
     public Boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
