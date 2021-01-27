@@ -30,6 +30,10 @@ public class SkillService {
         return skillRepository.findAll();
     }
 
+    public List<Skill> getAllSkillsOfUser(User user) {
+        return skillRepository.findSkillsByUserIs(user);
+    }
+
     public void addSkill(UUID userId, Skill skill) {
         User user = userRepository.findById(userId).
                 orElseThrow(() -> new UserNotFoundException(userId));

@@ -3,7 +3,9 @@ package com.jobifyProject.jobify.controller;
 import com.jobifyProject.jobify.converter.SkillConverter;
 import com.jobifyProject.jobify.dto.SkillDto;
 import com.jobifyProject.jobify.model.Skill;
+import com.jobifyProject.jobify.model.User;
 import com.jobifyProject.jobify.service.SkillService;
+import com.jobifyProject.jobify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +23,20 @@ public class SkillController {
     @Autowired
     private SkillService skillService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/skills")
     public List<SkillDto> getAllSkills() {
         List<Skill> skillList = skillService.getAllSkills();
         return skillConverter.modelToDto(skillList);
+    }
+
+    @GetMapping("/user/:id/skills")
+    public List<SkillDto> getAllSkillsOfUser(@PathVariable UUID id) {
+        User user = userService.getUserById(id);
+        List<Skill> skills = skillService.getAllSkillsOfUser(user);
+        return skillConverter.modelToDto(skills);
     }
 
     @PostMapping("/skills/{userId}")

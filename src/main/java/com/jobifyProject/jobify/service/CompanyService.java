@@ -52,4 +52,16 @@ public class CompanyService {
     public void deleteCompany(UUID id) {
         companyRepository.delete(getCompanyById(id));
     }
+
+    public Company findByName(String name) {
+        return companyRepository.findByName(name);
+    }
+
+    public Boolean existsByName(String name) {
+        return companyRepository.existsByName(name);
+    }
+
+    public Boolean existsByEmail(String email) {
+        return companyRepository.existsByEmail(email);
+    }
 }

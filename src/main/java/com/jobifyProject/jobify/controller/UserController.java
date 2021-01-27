@@ -9,7 +9,6 @@ import com.jobifyProject.jobify.dto.UserDto;
 import com.jobifyProject.jobify.model.JobOffer;
 import com.jobifyProject.jobify.model.Skill;
 import com.jobifyProject.jobify.model.User;
-import com.jobifyProject.jobify.repository.SkillRepository;
 import com.jobifyProject.jobify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -54,8 +53,8 @@ public class UserController {
     }
 
     @GetMapping("/users/{userId}/skills")
-    public Set<SkillDto> getSkillsOfUser(@PathVariable UUID userId) {
-        Set<Skill> skills = userService.findSkillsOfUser(userId);
+    public List<SkillDto> getSkillsOfUser(@PathVariable UUID userId) {
+        List<Skill> skills = userService.findSkillsOfUser(userId);
         return skillConverter.modelToDto(skills);
     }
 
@@ -71,11 +70,11 @@ public class UserController {
         return jobOfferConverter.modelToDto(jobOffers);
     }
 
-    @PostMapping("/users")
-    public void addUser(@RequestBody UserDto userDto) {
-        User user = userConverter.dtoToModel(userDto);
-        userService.addUser(user);
-    }
+//    @PostMapping("/users")
+//    public void addUser(@RequestBody UserDto userDto) {
+//        User user = userConverter.dtoToModel(userDto);
+//        userService.addUser(user);
+//    }
 
     @PutMapping("/users/{id}")
     public UserDto updateUserById(@PathVariable UUID id, @RequestBody UserDto userDto) {

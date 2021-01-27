@@ -8,6 +8,7 @@ import com.jobifyProject.jobify.repository.JobRepository;
 import com.jobifyProject.jobify.repository.SkillRepository;
 import com.jobifyProject.jobify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -43,7 +44,7 @@ public class UserService {
         return user.getAppliedJobs();
     }
 
-    public Set<Skill> findSkillsOfUser(UUID userId){
+    public List<Skill> findSkillsOfUser(UUID userId){
         User user = getUserById(userId);
         return skillRepository.findSkillsByUserIs(user);
     }
@@ -66,5 +67,16 @@ public class UserService {
 
     public Set<User> getUsersLookingForJob() {
         return userRepository.findUsersByLookingForJobIsTrue();
+    }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public Boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+    public Boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
     }
 }

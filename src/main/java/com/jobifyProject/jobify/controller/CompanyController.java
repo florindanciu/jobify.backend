@@ -53,6 +53,7 @@ public class CompanyController {
 
     @PostMapping("/companies")
     public void addCompany(@RequestBody CompanyDto companyDto) {
+        System.out.println("Test");
         Company company = companyConverter.dtoToModel(companyDto);
         companyService.addCompany(company);
     }

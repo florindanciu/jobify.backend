@@ -1,8 +1,6 @@
 package com.jobifyProject.jobify.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -43,6 +41,15 @@ public class User {
     private String experience;
     private Boolean lookingForJob;
     private String image;
+    private String JobRole;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
     public User(
             @NotBlank @Size(max = 20) String username,
@@ -53,14 +60,6 @@ public class User {
         this.email = email;
         this.password = password;
     }
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
 
     @ManyToMany
     private List<JobOffer> workedAt;
