@@ -8,6 +8,7 @@ import com.jobifyProject.jobify.service.SkillService;
 import com.jobifyProject.jobify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -40,12 +41,14 @@ public class SkillController {
     }
 
     @PostMapping("/skills/{userId}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public void addSkill(@PathVariable UUID userId, @RequestBody SkillDto skillDto) {
         Skill skill = skillConverter.dtoToModel(skillDto);
         skillService.addSkill(userId, skill);
     }
 
     @DeleteMapping("/skills/{skillId}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Map<String, Boolean>> deleteSkill(@PathVariable UUID skillId) {
         skillService.deleteSkill(skillId);
 

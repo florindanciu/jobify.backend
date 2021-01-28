@@ -1,4 +1,4 @@
-package com.jobifyProject.jobify.dto.response;
+package com.jobifyProject.jobify.dto;
 
 import lombok.Getter;
 import lombok.Setter;

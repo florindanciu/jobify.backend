@@ -33,4 +33,6 @@ public class UserDto {
     private String image;
     private Set<String> roles;
     private String jobRole;
+    private boolean lookingForJob;
+    private String gender;
 }

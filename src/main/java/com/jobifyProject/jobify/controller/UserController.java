@@ -12,6 +12,7 @@ import com.jobifyProject.jobify.model.User;
 import com.jobifyProject.jobify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -52,6 +53,13 @@ public class UserController {
         return userConverter.modelToDto(users);
     }
 
+    @PutMapping("/users/lookingForJob/{id}")
+    public void setUserLookingForJob(@PathVariable UUID id) {
+        User user = userService.getUserById(id);
+        user.setLookingForJob(!user.getLookingForJob());
+        userService.updateUserById(id, user);
+    }
+
     @GetMapping("/users/{userId}/skills")
     public List<SkillDto> getSkillsOfUser(@PathVariable UUID userId) {
         List<Skill> skills = userService.findSkillsOfUser(userId);
@@ -70,13 +78,8 @@ public class UserController {
         return jobOfferConverter.modelToDto(jobOffers);
     }
 
-//    @PostMapping("/users")
-//    public void addUser(@RequestBody UserDto userDto) {
-//        User user = userConverter.dtoToModel(userDto);
-//        userService.addUser(user);
-//    }
-
     @PutMapping("/users/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public UserDto updateUserById(@PathVariable UUID id, @RequestBody UserDto userDto) {
         User user = userConverter.dtoToModel(userDto);
         User updatedUser = userService.updateUserById(id, user);
@@ -85,6 +88,7 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Map<String, Boolean>> deleteUser(@PathVariable UUID id) {
         userService.deleteUser(id);
 

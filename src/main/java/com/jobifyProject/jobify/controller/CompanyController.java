@@ -9,6 +9,7 @@ import com.jobifyProject.jobify.model.JobOffer;
 import com.jobifyProject.jobify.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -51,14 +52,8 @@ public class CompanyController {
         return jobOfferConverter.modelToDto(jobOffer);
     }
 
-    @PostMapping("/companies")
-    public void addCompany(@RequestBody CompanyDto companyDto) {
-        System.out.println("Test");
-        Company company = companyConverter.dtoToModel(companyDto);
-        companyService.addCompany(company);
-    }
-
     @PutMapping("/companies/{id}")
+    @PreAuthorize("hasRole('COMPANY') or hasRole('ADMIN')")
     public CompanyDto updateCompanyById(@PathVariable UUID id, @RequestBody CompanyDto companyDto) {
         Company company = companyConverter.dtoToModel(companyDto);
         Company updatedCompany = companyService.updateCompanyById(id, company);
@@ -66,6 +61,7 @@ public class CompanyController {
     }
 
     @DeleteMapping("/companies/{id}")
+    @PreAuthorize("hasRole('COMPANY') or hasRole('ADMIN')")
     public ResponseEntity<Map<String, Boolean>> deleteCompany(@PathVariable UUID id) {
         companyService.deleteCompany(id);
 

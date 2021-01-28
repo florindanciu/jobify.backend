@@ -50,6 +50,7 @@ public class CompanyService {
     }
 
     public void deleteCompany(UUID id) {
+        jobRepository.deleteAll(getJobsByCompanyId(id));
         companyRepository.delete(getCompanyById(id));
     }
 

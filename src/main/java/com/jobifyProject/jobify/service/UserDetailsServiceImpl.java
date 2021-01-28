@@ -3,8 +3,6 @@ package com.jobifyProject.jobify.service;
 import com.jobifyProject.jobify.model.Company;
 import com.jobifyProject.jobify.model.User;
 import com.jobifyProject.jobify.model.UserDetailsImpl;
-import com.jobifyProject.jobify.repository.CompanyRepository;
-import com.jobifyProject.jobify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,17 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
-    private CompanyRepository companyRepository;
+    private CompanyService companyService;
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) {
 
-        User user = userRepository.findByUsername(username);
-        Company company = companyRepository.findByName(username);
+        User user = userService.findByUsername(username);
+        Company company = companyService.findByName(username);
 
         if (user != null) {
             return UserDetailsImpl.buildUser(user);

@@ -10,6 +10,7 @@ import com.jobifyProject.jobify.service.JobOfferService;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -29,7 +30,6 @@ public class JobOfferController {
     private JobOfferService jobOfferService;
 
     @GetMapping("/jobs")
-//    @PreAuthorize("hasRole('Role_ADMIN')")
     public List<JobOfferDto> getAllJobs() {
         List<JobOffer> allJobOffers = jobOfferService.getAllJobOffers();
         return jobOfferConverter.modelToDto(allJobOffers);
@@ -55,12 +55,14 @@ public class JobOfferController {
     }
 
     @PostMapping("/companies/{company_id}/jobs")
+    @PreAuthorize("hasRole('COMPANY') or hasRole('ADMIN')")
     public void addJob(@RequestBody JobOfferDto jobOfferDto, @PathVariable UUID company_id) {
         JobOffer jobOffer = jobOfferConverter.dtoToModel(jobOfferDto);
         jobOfferService.addJob(jobOffer, company_id);
     }
 
     @PutMapping("/jobs/{id}")
+    @PreAuthorize("hasRole('COMPANY') or hasRole('ADMIN')")
     public JobOfferDto updateJobById(@PathVariable UUID id, @RequestBody JobOfferDto jobOfferDto) {
         JobOffer jobOffer = jobOfferConverter.dtoToModel(jobOfferDto);
         JobOffer updatedJobOffer = jobOfferService.updateJobById(id, jobOffer);
@@ -93,6 +95,7 @@ public class JobOfferController {
 //    }
 
     @DeleteMapping("/jobs/{id}")
+    @PreAuthorize("hasRole('COMPANY') or hasRole('ADMIN')")
     public ResponseEntity<Map<String, Boolean>> deleteJob(@PathVariable UUID id) {
         jobOfferService.deleteJob(id);
 

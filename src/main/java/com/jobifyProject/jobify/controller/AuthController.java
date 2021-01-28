@@ -4,8 +4,8 @@ import com.jobifyProject.jobify.converter.CompanyConverter;
 import com.jobifyProject.jobify.converter.UserConverter;
 import com.jobifyProject.jobify.dto.CompanyDto;
 import com.jobifyProject.jobify.dto.UserDto;
-import com.jobifyProject.jobify.dto.request.LoginRequest;
-import com.jobifyProject.jobify.dto.response.JwtResponse;
+import com.jobifyProject.jobify.dto.LoginRequest;
+import com.jobifyProject.jobify.dto.JwtResponse;
 import com.jobifyProject.jobify.model.*;
 import com.jobifyProject.jobify.security.jwt.JWTService;
 import com.jobifyProject.jobify.service.CompanyService;
@@ -56,7 +56,7 @@ public class AuthController {
     @Autowired
     private JWTService jwtService;
 
-    @PostMapping("user/signup")
+    @PostMapping("/user-signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserDto userDto) {
 
         if (userService.existsByUsername(userDto.getUsername())) {
@@ -103,7 +103,7 @@ public class AuthController {
         return ResponseEntity.ok("User registered successfully!");
     }
 
-    @PostMapping("company/signup")
+    @PostMapping("/company-signup")
     public ResponseEntity<?> registerCompany(@Valid @RequestBody CompanyDto companyDto) {
 
         if (companyService.existsByName(companyDto.getName())) {
@@ -159,7 +159,6 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtService.generateJwToken(authentication);
 
-        System.out.println(jwt);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
