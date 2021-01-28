@@ -44,6 +44,7 @@ public class CompanyService {
     public Company updateCompanyById(UUID id, Company updatedCompany) {
         Company company = getCompanyById(id);
         company.setName(updatedCompany.getName());
+        company.setEmail(updatedCompany.getEmail());
         company.setWebsiteLink(updatedCompany.getWebsiteLink());
         company.setCompanyLogo(updatedCompany.getCompanyLogo());
         return companyRepository.save(company);
