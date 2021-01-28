@@ -1,10 +1,12 @@
 package com.jobifyProject.jobify.dto;
 
+import com.jobifyProject.jobify.model.Skill;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -30,4 +32,7 @@ public class UserDto {
     private String age;
     private String image;
     private Set<String> roles;
+    private String jobRole;
+    private boolean lookingForJob;
+    private String gender;
 }

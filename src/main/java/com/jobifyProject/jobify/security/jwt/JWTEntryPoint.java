@@ -25,6 +25,7 @@ public class JWTEntryPoint implements AuthenticationEntryPoint {
 
         logger.error("Unauthorized error: {}", e.getMessage());
 
+        System.out.println("jwt entry point");
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 

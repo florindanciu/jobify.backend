@@ -29,18 +29,18 @@ public class JobifyProjectApplication {
 		return new ModelMapper();
 	}
 
-    @Bean
-    public CommandLineRunner init() {
-        return args -> {
-            Role user = new Role();
-            user.setName(EnumRole.ROLE_USER);
-            Role company = new Role();
-            company.setName(EnumRole.ROLE_COMPANY);
-            Role admin = new Role();
-            admin.setName(EnumRole.ROLE_ADMIN);
-            roleService.saveAll(List.of(user, company, admin));
-        };
-    }
+//    @Bean
+//    public CommandLineRunner init() {
+//        return args -> {
+//            Role user = new Role();
+//            user.setName(EnumRole.ROLE_USER);
+//            Role company = new Role();
+//            company.setName(EnumRole.ROLE_COMPANY);
+//            Role admin = new Role();
+//            admin.setName(EnumRole.ROLE_ADMIN);
+//            roleService.saveAll(List.of(user, company, admin));
+//        };
+//    }
 
 //	@Bean
 //	public Docket swaggerConfig(){

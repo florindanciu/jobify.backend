@@ -53,9 +53,16 @@ public class UserController {
         return userConverter.modelToDto(users);
     }
 
+    @PutMapping("/users/lookingForJob/{id}")
+    public void setUserLookingForJob(@PathVariable UUID id) {
+        User user = userService.getUserById(id);
+        user.setLookingForJob(!user.getLookingForJob());
+        userService.updateUserById(id, user);
+    }
+
     @GetMapping("/users/{userId}/skills")
-    public Set<SkillDto> getSkillsOfUser(@PathVariable UUID userId) {
-        Set<Skill> skills = userService.findSkillsOfUser(userId);
+    public List<SkillDto> getSkillsOfUser(@PathVariable UUID userId) {
+        List<Skill> skills = userService.findSkillsOfUser(userId);
         return skillConverter.modelToDto(skills);
     }
 

@@ -43,7 +43,7 @@ public class UserService {
         return user.getAppliedJobs();
     }
 
-    public Set<Skill> findSkillsOfUser(UUID userId){
+    public List<Skill> findSkillsOfUser(UUID userId){
         User user = getUserById(userId);
         return skillRepository.findSkillsByUserIs(user);
     }

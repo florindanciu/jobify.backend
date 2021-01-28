@@ -1,6 +1,7 @@
 package com.jobifyProject.jobify.model;
 
 import lombok.*;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -41,6 +42,8 @@ public class User {
     private String experience;
     private Boolean lookingForJob;
     private String image;
+    private String JobRole;
+    private String gender;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
