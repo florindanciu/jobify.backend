@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
@@ -147,6 +147,7 @@ public class AuthController {
 
         company.setRoles(roles);
         companyService.addCompany(company);
+        System.out.println("register company");
         return ResponseEntity.ok("Company registered successfully!");
     }
 

@@ -61,8 +61,8 @@ public class UserController {
     }
 
     @GetMapping("/users/{userId}/skills")
-    public List<SkillDto> getSkillsOfUser(@PathVariable UUID userId) {
-        List<Skill> skills = userService.findSkillsOfUser(userId);
+    public Set<SkillDto> getSkillsOfUser(@PathVariable UUID userId) {
+        Set<Skill> skills = userService.findSkillsOfUser(userId);
         return skillConverter.modelToDto(skills);
     }
 
@@ -79,7 +79,7 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public UserDto updateUserById(@PathVariable UUID id, @RequestBody UserDto userDto) {
         User user = userConverter.dtoToModel(userDto);
         User updatedUser = userService.updateUserById(id, user);

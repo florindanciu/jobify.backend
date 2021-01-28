@@ -53,7 +53,7 @@ public class CompanyController {
     }
 
     @PutMapping("/companies/{id}")
-    @PreAuthorize("hasRole('COMPANY') or hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('COMPANY')")
     public CompanyDto updateCompanyById(@PathVariable UUID id, @RequestBody CompanyDto companyDto) {
         Company company = companyConverter.dtoToModel(companyDto);
         Company updatedCompany = companyService.updateCompanyById(id, company);

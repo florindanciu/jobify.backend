@@ -66,14 +66,14 @@ public class User {
     @ManyToMany
     private List<JobOffer> workedAt;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<JobOffer> favoriteJobOffers;
 
     @ManyToMany
     private Set<JobOffer> appliedJobs = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<Skill> skills = new ArrayList<>();
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private Set<Skill> skills = new HashSet<>();
 
     @Override
     public String toString(){

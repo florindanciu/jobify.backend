@@ -26,19 +26,22 @@ public class SkillService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<Skill> getAllSkills() {
-        return skillRepository.findAll();
+    public Set<Skill> getAllSkills() {
+        return skillRepository.getAll();
     }
 
-    public List<Skill> getAllSkillsOfUser(User user) {
+    public Set<Skill> getAllSkillsOfUser(User user) {
         return skillRepository.findSkillsByUserIs(user);
     }
 
     public void addSkill(UUID userId, Skill skill) {
         User user = userRepository.findById(userId).
                 orElseThrow(() -> new UserNotFoundException(userId));
+        user.getSkills().add(skill);
         skill.setUser(user);
+
         skillRepository.save(skill);
+        userRepository.save(user);
     }
 
     public void deleteSkill(UUID skillId) {

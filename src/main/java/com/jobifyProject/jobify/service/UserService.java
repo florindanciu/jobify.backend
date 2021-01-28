@@ -43,7 +43,7 @@ public class UserService {
         return user.getAppliedJobs();
     }
 
-    public List<Skill> findSkillsOfUser(UUID userId){
+    public Set<Skill> findSkillsOfUser(UUID userId){
         User user = getUserById(userId);
         return skillRepository.findSkillsByUserIs(user);
     }
@@ -59,6 +59,8 @@ public class UserService {
         user.setExperience(updatedUser.getExperience());
         user.setAge(updatedUser.getAge());
         user.setImage(updatedUser.getImage());
+        user.setSkills(updatedUser.getSkills());
+        user.setJobRole(updatedUser.getJobRole());
         return userRepository.save(user);
     }
 

@@ -7,6 +7,7 @@ import com.jobifyProject.jobify.dto.UserDto;
 import com.jobifyProject.jobify.model.JobOffer;
 import com.jobifyProject.jobify.model.User;
 import com.jobifyProject.jobify.service.JobOfferService;
+import com.jobifyProject.jobify.service.UserService;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,9 @@ public class JobOfferController {
 
     @Autowired
     private JobOfferService jobOfferService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/jobs")
     public List<JobOfferDto> getAllJobs() {
@@ -61,8 +65,22 @@ public class JobOfferController {
         jobOfferService.addJob(jobOffer, company_id);
     }
 
+    @PostMapping("jobs/{jobId}/addFavoriteJob/user/{userId}")
+    public void addFavoriteJob(@PathVariable UUID jobId, @PathVariable UUID userId) {
+        JobOffer jobOffer = jobOfferService.getJobById(jobId);
+        User user = userService.getUserById(userId);
+        jobOfferService.addFavorite(jobOffer, user);
+    }
+
+    @DeleteMapping("jobs/{jobId}/addFavoriteJob/user/{userId}")
+    public void deleteFromFavorites(@PathVariable UUID jobId, @PathVariable UUID userId) {
+        JobOffer jobOffer = jobOfferService.getJobById(jobId);
+        User user = userService.getUserById(userId);
+        jobOfferService.deleteFromFavorites(jobOffer, user);
+    }
+
     @PutMapping("/jobs/{id}")
-    @PreAuthorize("hasRole('COMPANY') or hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('COMPANY') or hasRole('ADMIN')")
     public JobOfferDto updateJobById(@PathVariable UUID id, @RequestBody JobOfferDto jobOfferDto) {
         JobOffer jobOffer = jobOfferConverter.dtoToModel(jobOfferDto);
         JobOffer updatedJobOffer = jobOfferService.updateJobById(id, jobOffer);

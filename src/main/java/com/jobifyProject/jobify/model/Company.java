@@ -56,6 +56,9 @@ public class Company {
     )
     private Set<Role> roles = new HashSet<>();
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<JobOffer> jobOffers = new HashSet<>();
+
     public Company(
             @NotBlank @Size(max = 20) String name,
             @NotBlank @Size(max = 50) @Email String email,

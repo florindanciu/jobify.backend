@@ -79,4 +79,14 @@ public class JobOfferService {
     public Set<User> findJobOfferEmployees(JobOffer jobOffer) {
         return userRepository.findUsersByWorkedAtIs(jobOffer);
     }
+
+    public void addFavorite(JobOffer jobOffer, User user) {
+        user.getFavoriteJobOffers().add(jobOffer);
+        userRepository.save(user);
+    }
+
+    public void deleteFromFavorites(JobOffer jobOffer, User user) {
+        user.getFavoriteJobOffers().remove(jobOffer);
+        userRepository.save(user);
+    }
 }

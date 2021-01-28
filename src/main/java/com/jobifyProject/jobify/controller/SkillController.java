@@ -28,20 +28,20 @@ public class SkillController {
     private UserService userService;
 
     @GetMapping("/skills")
-    public List<SkillDto> getAllSkills() {
-        List<Skill> skillList = skillService.getAllSkills();
+    public Set<SkillDto> getAllSkills() {
+        Set<Skill> skillList = skillService.getAllSkills();
         return skillConverter.modelToDto(skillList);
     }
 
-    @GetMapping("/user/:id/skills")
-    public List<SkillDto> getAllSkillsOfUser(@PathVariable UUID id) {
+    @GetMapping("/user/{id}/skills")
+    public Set<SkillDto> getAllSkillsOfUser(@PathVariable UUID id) {
         User user = userService.getUserById(id);
-        List<Skill> skills = skillService.getAllSkillsOfUser(user);
+        Set<Skill> skills = skillService.getAllSkillsOfUser(user);
         return skillConverter.modelToDto(skills);
     }
 
     @PostMapping("/skills/{userId}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public void addSkill(@PathVariable UUID userId, @RequestBody SkillDto skillDto) {
         Skill skill = skillConverter.dtoToModel(skillDto);
         skillService.addSkill(userId, skill);
