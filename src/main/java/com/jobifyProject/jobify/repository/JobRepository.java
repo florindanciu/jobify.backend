@@ -27,5 +27,4 @@ public interface JobRepository extends JpaRepository<JobOffer, UUID> {
     Set<JobOffer> findJobOffersByNameContainingIgnoreCaseAndLocationContainingIgnoreCase(String name,String location);
 
     List<JobOffer> findJobOfferByNameContainingIgnoreCase(String name);
-
 }

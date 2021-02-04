@@ -2,6 +2,7 @@ package com.jobifyProject.jobify.model;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -30,8 +31,6 @@ public class JobOffer {
     private Date publishedDate;
     private String type;
     private String location;
-//    @Enumerated(EnumType.STRING)
-//    private JobOfferStates state;
 
     @ManyToMany(mappedBy = "workedAt")
     private Set<User> employed;

@@ -3,8 +3,10 @@ package com.jobifyProject.jobify.service;
 import com.jobifyProject.jobify.exception.CompanyNotFoundException;
 import com.jobifyProject.jobify.model.Company;
 import com.jobifyProject.jobify.model.JobOffer;
+import com.jobifyProject.jobify.model.User;
 import com.jobifyProject.jobify.repository.CompanyRepository;
 import com.jobifyProject.jobify.repository.JobRepository;
+import com.jobifyProject.jobify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,9 @@ public class CompanyService {
 
     @Autowired
     private JobRepository jobRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public List<Company> getAllCompanies() {
         return companyRepository.findAll();
@@ -50,9 +55,14 @@ public class CompanyService {
         return companyRepository.save(company);
     }
 
-    public void deleteCompany(UUID id) {
-        jobRepository.deleteAll(getJobsByCompanyId(id));
-        companyRepository.delete(getCompanyById(id));
+    public void deleteCompany(UUID companyId) {
+        List<JobOffer> companyJobs = jobRepository.findAllByCompanyId(companyId);
+        List<User> users = userRepository.findAll();
+        users.forEach(user -> {
+            user.getFavoriteJobOffers().removeIf(companyJobs::contains);
+        });
+        jobRepository.deleteAll(getJobsByCompanyId(companyId));
+        companyRepository.delete(getCompanyById(companyId));
     }
 
     public Company findByName(String name) {

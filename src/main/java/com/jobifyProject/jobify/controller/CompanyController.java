@@ -60,10 +60,10 @@ public class CompanyController {
         return companyConverter.modelToDto(updatedCompany);
     }
 
-    @DeleteMapping("/companies/{id}")
+    @DeleteMapping("/companies/{companyId}")
     @PreAuthorize("hasRole('COMPANY') or hasRole('ADMIN')")
-    public ResponseEntity<Map<String, Boolean>> deleteCompany(@PathVariable UUID id) {
-        companyService.deleteCompany(id);
+    public ResponseEntity<Map<String, Boolean>> deleteCompany(@PathVariable UUID companyId) {
+        companyService.deleteCompany(companyId);
 
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
